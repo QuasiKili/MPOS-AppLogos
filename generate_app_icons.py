@@ -12,9 +12,10 @@ def create_icon_base():
     draw = ImageDraw.Draw(img)
     return img, draw
 
-def save_icon(img, app_name, output_base_dir="."):
+def save_icon(img, app_name, output_base_dir=""):
     """Saves the generated icon to the specified path within the app's directory structure."""
-    output_dir = os.path.join(output_base_dir, app_name, 'res', 'mipmap-mdpi')
+    # output_dir = os.path.join(output_base_dir, app_name, 'res', 'mipmap-mdpi')
+    output_dir = os.path.join(output_base_dir, app_name)
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, 'icon_64x64.png')
     img.save(output_path, 'PNG', optimize=True)
@@ -95,12 +96,238 @@ def generate_quasi_doodle_icon():
                  fill='#00FF00', outline='#00CC00', width=1)
     return img
 
+def generate_camera_icon():
+    img, draw = create_icon_base()
+    # Camera body
+    draw.rounded_rectangle([(10, 20), (54, 48)], radius=6, fill='#34495E', outline='#2C3E50', width=2)
+    # Lens
+    draw.ellipse([(22, 24), (42, 44)], fill='#7F8C8D', outline='#95A5A6', width=2)
+    draw.ellipse([(28, 30), (36, 38)], fill='#2C3E50') # Inner lens
+    # Flash
+    draw.rectangle([(46, 24), (50, 30)], fill='#F1C40F', outline='#F39C12', width=1)
+    # Shutter button
+    draw.ellipse([(48, 16), (52, 20)], fill='#E74C3C', outline='#C0392B', width=1)
+    return img
+
+def generate_confetti_icon():
+    img, draw = create_icon_base()
+    colors = ['#E74C3C', '#F1C40F', '#2ECC71', '#3498DB', '#9B59B6']
+    import random
+    for _ in range(30):
+        x = random.randint(5, 59)
+        y = random.randint(5, 59)
+        size = random.randint(3, 8)
+        color = random.choice(colors)
+        draw.rectangle([(x, y), (x + size, y + size)], fill=color)
+    return img
+
+def generate_connect4_icon():
+    img, draw = create_icon_base()
+    # Board
+    draw.rounded_rectangle([(8, 18), (56, 56)], radius=4, fill='#3498DB', outline='#2980B9', width=2)
+    # Slots
+    for r in range(3):
+        for c in range(4):
+            x = 12 + c * 10
+            y = 22 + r * 10
+            draw.ellipse([(x, y), (x + 8, y + 8)], fill='#ECF0F1', outline='#BDC3C7', width=1)
+    # Red and Yellow pieces
+    draw.ellipse([(12, 22), (20, 30)], fill='#E74C3C')
+    draw.ellipse([(22, 32), (30, 40)], fill='#F1C40F')
+    return img
+
+def generate_doom_launcher_icon():
+    img, draw = create_icon_base()
+    # Fiery background
+    draw.rectangle([(0, 0), (64, 64)], fill='#8B0000')
+    # Stylized "D" using shapes
+    draw.arc([(15, 10), (45, 50)], start=270, end=90, fill='#FFD700', width=8)
+    draw.line([(19, 10), (19, 50)], fill='#FFD700', width=8)
+    # Flame effect (simple triangles)
+    draw.polygon([(5, 55), (15, 45), (25, 55)], fill='#FF4500')
+    draw.polygon([(40, 50), (50, 40), (60, 50)], fill='#FF4500')
+    return img
+
+def generate_draw_icon():
+    img, draw = create_icon_base()
+    # Canvas
+    draw.rounded_rectangle([(8, 8), (56, 56)], radius=4, fill='#FFFFFF', outline='#BDC3C7', width=2)
+    # Paintbrush
+    draw.rectangle([(40, 10), (44, 30)], fill='#8B4513') # Handle
+    draw.polygon([(38, 30), (46, 30), (42, 38)], fill='#F1C40F') # Bristles
+    # Paint stroke
+    draw.arc([(15, 35), (40, 50)], start=180, end=0, fill='#3498DB', width=4)
+    return img
+
+def generate_errortest_icon():
+    img, draw = create_icon_base()
+    # Warning triangle
+    draw.polygon([(32, 10), (54, 50), (10, 50)], fill='#F1C40F', outline='#F39C12', width=2)
+    # Exclamation mark
+    draw.rectangle([(30, 20), (34, 38)], fill='#2C3E50')
+    draw.ellipse([(30, 42), (34, 46)], fill='#2C3E50')
+    return img
+
+def generate_filemanager_icon():
+    img, draw = create_icon_base()
+    # Folder icon
+    draw.rectangle([(10, 20), (30, 50)], fill='#F1C40F', outline='#F39C12', width=2)
+    draw.polygon([(10, 20), (15, 15), (35, 15), (30, 20)], fill='#F1C40F', outline='#F39C12', width=2)
+    # Document icon
+    draw.rectangle([(34, 28), (54, 50)], fill='#ECF0F1', outline='#BDC3C7', width=2)
+    draw.polygon([(48, 28), (54, 34), (54, 28)], fill='#BDC3C7') # Folded corner
+    return img
+
+def generate_helloworld_icon():
+    img, draw = create_icon_base()
+    # Speech bubble
+    draw.rounded_rectangle([(10, 10), (54, 45)], radius=8, fill='#FFFFFF', outline='#3498DB', width=2)
+    draw.polygon([(20, 45), (28, 55), (30, 45)], fill='#FFFFFF', outline='#3498DB', width=2)
+    # Text "Hi!" using shapes
+    draw.line([(20, 20), (20, 35)], fill='#2C3E50', width=4)
+    draw.line([(20, 20), (28, 20)], fill='#2C3E50', width=4)
+    draw.line([(28, 20), (28, 28)], fill='#2C3E50', width=4)
+    draw.line([(20, 28), (28, 28)], fill='#2C3E50', width=4)
+    draw.line([(20, 35), (28, 35)], fill='#2C3E50', width=4)
+    draw.ellipse([(23, 38), (25, 40)], fill='#2C3E50') # Exclamation dot
+    return img
+
+def generate_imageview_icon():
+    img, draw = create_icon_base()
+    # Mountain landscape
+    draw.rectangle([(0, 0), (64, 64)], fill='#87CEEB') # Sky
+    draw.polygon([(0, 40), (32, 15), (64, 40), (64, 64), (0, 64)], fill='#2ECC71') # Mountains
+    draw.polygon([(10, 45), (25, 30), (40, 45), (40, 64), (10, 64)], fill='#27AE60') # Closer mountain
+    # Sun
+    draw.ellipse([(45, 5), (59, 19)], fill='#F1C40F')
+    return img
+
+def generate_imu_icon():
+    img, draw = create_icon_base()
+    # Gyroscope-like circles
+    draw.ellipse([(10, 10), (54, 54)], outline='#3498DB', width=2)
+    draw.ellipse([(15, 20), (49, 44)], outline='#2ECC71', width=2)
+    draw.line([(10, 32), (54, 32)], fill='#E74C3C', width=2)
+    draw.line([(32, 10), (32, 54)], fill='#E74C3C', width=2)
+    return img
+
+def generate_musicplayer_icon():
+    img, draw = create_icon_base()
+    # Music note
+    draw.ellipse([(15, 35), (30, 50)], fill='#E74C3C', outline='#C0392B', width=2)
+    draw.rectangle([(28, 15), (32, 40)], fill='#E74C3C', outline='#C0392B', width=2)
+    draw.arc([(32, 10), (45, 25)], start=270, end=90, fill='#E74C3C', width=2)
+    return img
+
+def generate_nostr_icon():
+    img, draw = create_icon_base()
+    # Stylized "N" using shapes
+    draw.line([(15, 50), (15, 10)], fill='#F1C40F', width=8)
+    draw.line([(15, 10), (45, 50)], fill='#F1C40F', width=8)
+    draw.line([(45, 50), (45, 10)], fill='#F1C40F', width=8)
+    # Speech bubble/connection lines
+    draw.line([(10, 50), (25, 35)], fill='#3498DB', width=2)
+    draw.line([(35, 35), (50, 50)], fill='#3498DB', width=2)
+    return img
+
+def generate_showbattery_icon():
+    img, draw = create_icon_base()
+    # Battery body
+    draw.rounded_rectangle([(15, 20), (49, 44)], radius=4, outline='#2C3E50', width=2)
+    draw.rectangle([(49, 28), (52, 36)], fill='#2C3E50') # Terminal
+    # Battery level (green)
+    draw.rectangle([(17, 22), (47, 42)], fill='#2ECC71')
+    return img
+
+def generate_showfonts_icon():
+    img, draw = create_icon_base()
+    # "Aa" text using shapes
+    # A
+    draw.polygon([(10, 40), (20, 10), (30, 40)], fill='#E74C3C', outline='#C0392B', width=2)
+    draw.line([(15, 30), (25, 30)], fill='#E74C3C', width=2)
+    # a
+    draw.ellipse([(35, 25), (45, 35)], fill='#3498DB', outline='#2980B9', width=2)
+    draw.line([(45, 28), (45, 40)], fill='#3498DB', width=2)
+    # Ruler/underline
+    draw.line([(10, 50), (54, 50)], fill='#2C3E50', width=2)
+    draw.line([(10, 52), (54, 52)], fill='#2C3E50', width=1)
+    return img
+
+def generate_soundrecorder_icon():
+    img, draw = create_icon_base()
+    # Microphone
+    draw.ellipse([(25, 15), (39, 30)], fill='#7F8C8D', outline='#95A5A6', width=2) # Mic head
+    draw.rectangle([(30, 30), (34, 45)], fill='#7F8C8D', outline='#95A5A6', width=2) # Mic body
+    draw.rectangle([(28, 45), (36, 48)], fill='#7F8C8D', outline='#95A5A6', width=2) # Base
+    # Sound waves
+    draw.arc([(40, 20), (50, 30)], start=90, end=270, fill='#3498DB', width=2)
+    draw.arc([(42, 18), (52, 32)], start=90, end=270, fill='#3498DB', width=2)
+    return img
+
+def generate_about_icon():
+    img, draw = create_icon_base()
+    # "i" for information using shapes
+    draw.line([(32, 15), (32, 35)], fill='#3498DB', width=4)
+    draw.ellipse([(30, 40), (34, 44)], fill='#3498DB')
+    # Circle around it
+    draw.ellipse([(10, 5), (54, 49)], outline='#3498DB', width=2)
+    return img
+
+def generate_appstore_icon():
+    img, draw = create_icon_base()
+    # Shopping bag
+    draw.polygon([(15, 15), (49, 15), (54, 50), (10, 50)], fill='#2ECC71', outline='#27AE60', width=2)
+    draw.line([(20, 15), (20, 10)], fill='#27AE60', width=2)
+    draw.line([(44, 15), (44, 10)], fill='#27AE60', width=2)
+    draw.arc([(18, 5), (46, 15)], start=180, end=0, fill='#2ECC71', width=2)
+    draw.arc([(18, 5), (46, 15)], start=180, end=0, fill='#27AE60', width=2)
+    # "A" for App using shapes
+    draw.polygon([(28, 35), (32, 25), (36, 35)], fill='#FFFFFF', outline='#BDC3C7', width=2)
+    draw.line([(30, 30), (34, 30)], fill='#FFFFFF', width=2)
+    return img
+
+def generate_launcher_icon():
+    img, draw = create_icon_base()
+    # Home icon
+    draw.polygon([(32, 10), (54, 32), (10, 32)], fill='#3498DB', outline='#2980B9', width=2) # Roof
+    draw.rectangle([(15, 30), (49, 54)], fill='#ECF0F1', outline='#BDC3C7', width=2) # House body
+    draw.rectangle([(28, 40), (36, 54)], fill='#7F8C8D', outline='#95A5A6', width=1) # Door
+    return img
+
+def generate_osupdate_icon():
+    img, draw = create_icon_base()
+    # Up arrow
+    draw.polygon([(22, 40), (42, 40), (32, 20)], fill='#2ECC71', outline='#27AE60', width=2)
+    draw.rectangle([(28, 40), (36, 50)], fill='#2ECC71', outline='#27AE60', width=2)
+    # Circle around it
+    draw.ellipse([(10, 10), (54, 54)], outline='#2ECC71', width=2)
+    return img
+
 def main():
     parser = argparse.ArgumentParser(description="Generate app icons.")
     parser.add_argument('--app', nargs='*', help='Specify app names to generate icons for (e.g., "QuasiBird" "QuasiCalculator"). If not specified, all icons will be generated.')
     args = parser.parse_args()
 
     apps = {
+        "com.micropythonos.camera": generate_camera_icon,
+        "com.micropythonos.confetti": generate_confetti_icon,
+        "com.micropythonos.connect4": generate_connect4_icon,
+        "com.micropythonos.doom_launcher": generate_doom_launcher_icon,
+        "com.micropythonos.draw": generate_draw_icon,
+        "com.micropythonos.errortest": generate_errortest_icon,
+        "com.micropythonos.filemanager": generate_filemanager_icon,
+        "com.micropythonos.helloworld": generate_helloworld_icon,
+        "com.micropythonos.imageview": generate_imageview_icon,
+        "com.micropythonos.imu": generate_imu_icon,
+        "com.micropythonos.musicplayer": generate_musicplayer_icon,
+        "com.micropythonos.nostr": generate_nostr_icon,
+        "com.micropythonos.showbattery": generate_showbattery_icon,
+        "com.micropythonos.showfonts": generate_showfonts_icon,
+        "com.micropythonos.soundrecorder": generate_soundrecorder_icon,
+        "com.micropythonos.about": generate_about_icon,
+        "com.micropythonos.appstore": generate_appstore_icon,
+        "com.micropythonos.launcher": generate_launcher_icon,
+        "com.micropythonos.osupdate": generate_osupdate_icon,
         "MPOS-QuasiBird": generate_quasi_bird_icon,
         "MPOS-QuasiCalculator": generate_quasi_calculator_icon,
         "MPOS-QuasiNametag": generate_quasi_nametag_icon,
