@@ -282,12 +282,13 @@ def generate_helloworld_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
     # Speech bubble
-    draw.rounded_rectangle(scale_coords([(5, 14), (59, 50)]), radius=32, fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
-    draw.polygon(scale_coords([(20, 50), (28, 62), (30, 50)]), fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
+    draw.rounded_rectangle(scale_coords([(3, 12), (61, 52)]), radius=32, fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
+    # draw.polygon(scale_coords([(20, 50), (28, 62), (30, 50)]), fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
     # Text "Hello!" using font
     try:
         font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(15))
-        draw.text(scale_coords((12, 25)), "Hello!", font=font, fill=COLORS["white"])
+        draw.text(scale_coords((12, 16)), "Hello", font=font, fill=COLORS["white"])
+        draw.text(scale_coords((12, 31)), "World", font=font, fill=COLORS["white"])
     except:
         # Fallback if font not available
         draw.text(scale_coords((12, 25)), "Hello!", fill=COLORS["white"])
@@ -385,13 +386,17 @@ def generate_musicplayer_icon():
 
 def generate_nostr_icon():
     img, draw = create_icon_base()
-    # Stylized "N" using shapes
-    draw.line(scale_coords([(15, 50), (15, 10)]), fill=COLORS["sun_yellow"], width=32)
-    draw.line(scale_coords([(15, 10), (45, 50)]), fill=COLORS["sun_yellow"], width=32)
-    draw.line(scale_coords([(45, 50), (45, 10)]), fill=COLORS["sun_yellow"], width=32)
-    # Speech bubble/connection lines
-    draw.line(scale_coords([(10, 50), (25, 35)]), fill=COLORS["bright_blue"], width=8)
-    draw.line(scale_coords([(35, 35), (50, 50)]), fill=COLORS["bright_blue"], width=8)
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Speech bubble
+    draw.rounded_rectangle(scale_coords([(5, 14), (59, 50)]), radius=32, fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
+    draw.polygon(scale_coords([(20, 50), (28, 62), (30, 50)]), fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
+    # Text "Hello!" using font
+    try:
+        font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(15))
+        draw.text(scale_coords((12, 25)), "Hello!", font=font, fill=COLORS["white"])
+    except:
+        # Fallback if font not available
+        draw.text(scale_coords((12, 25)), "Hello!", fill=COLORS["white"])
     return img
 
 def generate_showbattery_icon():
@@ -522,7 +527,7 @@ def generate_appstore_icon():
         draw.rectangle(scale_coords([(x, y), (x + 12, y + 12)]), fill=app_colors[i], outline=COLORS["charcoal_gray"], width=4)
     # Draw a download symbol (down arrow)
     draw.rectangle(scale_coords([(24, 35), (40, 52)]), fill=COLORS["red_orange"], outline=COLORS["charcoal_gray"])
-    draw.polygon(scale_coords([(20, 52), (44, 52), (32, 62)]), fill=COLORS["red_orange"], outline=COLORS["charcoal_gray"])
+    draw.polygon(scale_coords([(16, 48), (48, 48), (32, 62)]), fill=COLORS["red_orange"], outline=COLORS["charcoal_gray"])
     draw.rectangle(scale_coords([(26, 37), (38, 54)]), fill=COLORS["red_orange"])
     return img
 
@@ -634,17 +639,17 @@ def generate_settings_icon():
 
     background_color = COLORS["silver_gray"]
     background_outline_color = COLORS["light_gray"]
-    gear_color = COLORS["charcoal_gray"]
-    gear_outline_color = COLORS["black"]
+    gear_color = COLORS["dark_blue_gray"]
+    gear_outline_color = COLORS["dark_blue_gray"]
 
     # Gear teeth (16 evenly spaced teeth)
     center_x, center_y = 32, 32  # Center of the 64x64 image
     radius = 14  # Radius of the gear
-    inner_radius = 9  # Radius of the inner gear body
+    inner_radius = 8  # Radius of the inner gear body
     hole_radius = 4
     tooth_width = 6  # Width of each tooth
     tooth_height = 7  # Height of each tooth
-    teeth_amount = 12
+    teeth_amount = 9
     border_width = 1
 
     inner_radius = inner_radius * 2
