@@ -216,13 +216,14 @@ def generate_draw_icon():
 
 def generate_errortest_icon():
     img, draw = create_icon_base()
+    y_pos= 46
     draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
     
     # Warning triangle
-    draw.polygon(scale_coords([(32, 10), (54, 50), (10, 50)]), fill=COLORS["sun_yellow"], outline=COLORS["dark_orange"], width=8)
+    draw.polygon(scale_coords([(32, y_pos-40), (54, y_pos), (10, y_pos)]), fill=COLORS["sun_yellow"], outline=COLORS["dark_orange"], width=10)
     # Exclamation mark
-    draw.rectangle(scale_coords([(30, 20), (34, 38)]), fill=COLORS["dark_blue_gray"])
-    draw.ellipse(scale_coords([(30, 42), (34, 46)]), fill=COLORS["dark_blue_gray"])
+    draw.rectangle(scale_coords([(30, y_pos-28), (34, y_pos-12)]), fill=COLORS["dark_blue_gray"])
+    draw.ellipse(scale_coords([(30, y_pos-8), (34, y_pos-4)]), fill=COLORS["dark_blue_gray"])
     return img
 
 def generate_filemanager_icon():
@@ -278,33 +279,70 @@ def generate_imageview_icon():
     # draw.rectangle([(0, 0), (RENDER_SIZE, RENDER_SIZE)], fill=COLORS["bright_blue"])
     # draw.polygon(scale_coords([(6, 40), (32, 15), (58, 40), (58, 58), (6, 58)]), fill=COLORS["emerald_green"])
     draw.rounded_rectangle([scale_coords((4, 40)), scale_coords((60, 60))], fill=COLORS["emerald_green"], radius=scale_coords(4))
-    draw.polygon(scale_coords([(14, 35), (24, 25), (34, 35), (34, 48), (14, 48)]), fill=COLORS["dark_blue_gray"])
-    # draw.polygon(scale_coords([(6, 40), (32, 15), (58, 40), (58, 58), (6, 58)]), fill=COLORS["emerald_green"])
+    # house
+    # draw.polygon(scale_coords([(14, 35), (24, 25), (34, 35), (34, 48), (14, 48)]), fill=COLORS["dark_blue_gray"])
+    # landscape
+    draw.polygon(scale_coords([(6, 40), (32, 26), (58, 40), (58, 58), (6, 58)]), fill=COLORS["emerald_green"])
     # Sun
     draw.ellipse(scale_coords([(39, 12), (53, 27)]), fill=COLORS["sun_yellow"])
     return img
 
 def generate_imu_icon():
     img, draw = create_icon_base()
-    # Central circle (main body)
-    draw.ellipse(scale_coords([(12, 12), (52, 52)]), fill=COLORS["dark_blue_gray"])
-    # Inner circle (representing sensor)
-    draw.ellipse(scale_coords([(20, 20), (44, 44)]), fill=COLORS["charcoal_gray"])
-    # Small central dot (indicator)
-    draw.ellipse(scale_coords([(29, 29), (35, 35)]), fill=COLORS["bright_blue"])
+    x_color = COLORS["bright_blue"] 
+    y_color = COLORS["dark_red"]
+    z_color = COLORS["emerald_green"]
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    draw.ellipse(scale_coords([(15, 25), (49, 39)]), outline=z_color, width=scale_coords(4) )
+    draw.ellipse(scale_coords([(10, 20), (54, 44)]), outline=y_color, width=scale_coords(4) )
+    draw.ellipse(scale_coords([(20, 10), (44, 54)]), outline=x_color, width=scale_coords(4) )
+    
+    
+    # # Central circle (main body)
+    # draw.ellipse(scale_coords([(12, 12), (52, 52)]), fill=COLORS["dark_blue_gray"])
+    # # Inner circle (representing sensor)
+    # draw.ellipse(scale_coords([(20, 20), (44, 44)]), fill=COLORS["charcoal_gray"])
+    # # Small central dot (indicator)
+    # draw.ellipse(scale_coords([(29, 29), (35, 35)]), fill=COLORS["bright_blue"])
     # Horizontal and vertical bars (axes)
-    draw.rectangle(scale_coords([(10, 30), (54, 34)]), fill=COLORS["light_gray"])
-    draw.rectangle(scale_coords([(30, 10), (34, 54)]), fill=COLORS["light_gray"])
+    # draw.rectangle(scale_coords([(10, 30), (54, 34)]), fill=COLORS["light_gray"])
+    # draw.rectangle(scale_coords([(30, 10), (34, 54)]), fill=COLORS["light_gray"])
     return img
 
 def generate_musicplayer_icon():
     img, draw = create_icon_base()
+    note_y = 42
+    note_x = 25
+    note_size = 11
+    note_thick = 3
+    second_note_x_offset = 18
+    second_note_y_offset = -3
+    note_height = 20
+    note_color = COLORS["dark_red"]
+    # Background
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    note_shape = scale_coords([(note_x, note_y), (note_x, note_height), (note_x+second_note_x_offset, note_height + second_note_y_offset),(note_x+second_note_x_offset, note_y + second_note_y_offset)])
+    # Note line all in one
+    draw.polygon(note_shape,  outline=note_color, width=scale_coords(note_thick))
+    # Erase bottom part
+    draw.rectangle(scale_coords([(note_x+note_thick, note_y+second_note_y_offset-note_thick), (note_x+second_note_x_offset-note_thick, note_y)]), fill=COLORS["silver_gray"])
+    
+
     # Main music note shape
-    draw.ellipse(scale_coords([(18, 38), (33, 53)]), fill=COLORS["red_orange"])
-    draw.rectangle(scale_coords([(31, 18), (35, 43)]), fill=COLORS["dark_red"])
-    draw.arc(scale_coords([(35, 13), (48, 28)]), start=270, end=90, fill=COLORS["dark_orange"], width=0)
+    draw.ellipse(scale_coords([(note_x-note_size+note_thick, note_y-note_size+(note_size/2)), (note_x+note_thick, note_y+(note_size/2))]), fill=note_color)
+    # draw.rectangle(scale_coords([(note_x+note_size-note_thick, note_height), (note_x+note_size, note_y-(note_size/2))]), fill=COLORS["red_orange"])
+    # Second note
+    draw.ellipse(scale_coords([(note_x-note_size + second_note_x_offset, note_y-note_size+second_note_y_offset+(note_size/2)), (note_x+ second_note_x_offset, note_y+second_note_y_offset+(note_size/2))]), fill=note_color)
+    # draw.rectangle(scale_coords([(note_x+note_size-note_thick+ second_note_x_offset, note_height+second_note_y_offset), (note_x+note_size+ second_note_x_offset, note_y-(note_size/2)+second_note_y_offset)]), fill=COLORS["red_orange"])
+    # Connection
+    # draw.line(([scale_coords((note_x+note_size-note_thick+ second_note_x_offset+3, note_height+second_note_y_offset)),scale_coords((note_x+note_size-3, note_height))]), fill=COLORS["red_orange"], width=scale_coords(3) )
+
+
+
+    # draw.arc(scale_coords([(35, 13), (48, 28)]), start=270, end=90, fill=COLORS["red_orange"], width=2)
+    
     # Play button triangle (integrated)
-    draw.polygon(scale_coords([(25, 25), (40, 32), (25, 39)]), fill=COLORS["white"])
+    # draw.polygon(scale_coords([(25, 25), (40, 32), (25, 39)]), fill=COLORS["white"])
     return img
 
 def generate_nostr_icon():
@@ -395,35 +433,61 @@ def generate_appstore_icon():
     draw.rectangle(scale_coords([(26, 37), (38, 54)]), fill=COLORS["red_orange"])
     return img
 
-def generate_launcher_icon():
-    img, draw = create_icon_base()
-    # Home icon
-    draw.polygon(scale_coords([(32, 10), (54, 32), (10, 32)]), fill=COLORS["bright_blue"], outline=COLORS["steel_blue"], width=8)
-    draw.rectangle(scale_coords([(15, 30), (49, 54)]), fill=COLORS["light_silver"], outline=COLORS["silver_gray"], width=8)
-    draw.rectangle(scale_coords([(28, 40), (36, 54)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=4)
-    return img
-
 def generate_osupdate_icon():
     img, draw = create_icon_base()
-    # Big gear with multiple teeth
+    background_color = COLORS["silver_gray"]
+    # arrow_color = COLORS["white"]
+    arrow_color = COLORS["bright_blue"]
+    outline_width = 2
+    arrow_bottom = 56
+    arrow_head_width = 3
+    arrow_width = 12
+    draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=background_color, outline=COLORS["light_gray"], width=8)
+    try:
+        logo = Image.open("assets/MicroPythonOS-logo-symbol-white(alpha)-short64.png").convert("RGBA")
+        logo = logo.resize((48 * SCALE_FACTOR, 48 * SCALE_FACTOR), Image.LANCZOS)
+        x = (RENDER_SIZE - logo.width) // 2
+        y = (RENDER_SIZE - logo.height) // 2
+        img.paste(logo, (x, y), logo)
+    except FileNotFoundError:
+        print("Error: MicroPythonOS-logo-symbol-white(alpha)-short64.png not found in assets directory.")
+    # Draw an upload symbol (up arrow)
+    draw.rectangle(scale_coords([(24, 35), (40, arrow_bottom)]), fill=arrow_color, outline=background_color, width= scale_coords(outline_width))
+    draw.polygon(scale_coords([(19, 34), (45, 34), (32, 22)]), fill=arrow_color)
+    draw.rectangle(scale_coords([(25, 33), (39, arrow_bottom-outline_width)]), fill=arrow_color)
+    return img
+
+def generate_launcher_icon():
+    img, draw = create_icon_base()
+    # Light gray circular background
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Draw logo
+    # Load the MicroPythonOS logo symbol
+    try:
+        logo = Image.open("assets/MicroPythonOS-logo-symbol-white(alpha)-short64.png").convert("RGBA")
+        # Resize logo to fit within the icon
+        logo = logo.resize((48 * SCALE_FACTOR, 48 * SCALE_FACTOR), Image.LANCZOS)
+        # Calculate position to center the logo
+        x = (RENDER_SIZE - logo.width) // 2
+        y = (RENDER_SIZE - logo.height) // 2
+        # Paste the logo onto the icon
+        img.paste(logo, (x, y), logo)
+        # Text "app" in the middle
     
-    # Gear body
-    draw.ellipse(scale_coords([(10, 10), (50, 50)]), fill=COLORS["dark_blue_gray"])
-    
-    # Gear teeth (multiple rectangles around the circumference)
-    teeth_positions = [
-        (32, 8), (48, 16), (54, 32),
-        (48, 48), (32, 54), (16, 48),
-        (8, 32), (16, 16)
-    ]
-    
-    for x, y in teeth_positions:
-        draw.rectangle(scale_coords([(x-4, y-4), (x+4, y+4)]), fill=COLORS["charcoal_gray"])
-    
-    # Central hole
-    draw.ellipse(scale_coords([(22, 22), (42, 42)]), fill=COLORS["bright_blue"])
-    
+        font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(20))
+        text = "app"
+        # Calculate text size to center it
+        bbox = draw.textbbox((0, 0), text, font=font)
+        text_width = bbox[2] - bbox[0]
+        text_height = bbox[3] - bbox[1]
+        
+        x = (RENDER_SIZE - text_width) // 2
+        y= RENDER_SIZE //2 - text_height + (text_height//4)
+
+        draw.text((x, y), text, font=font, fill=COLORS["light_gray"])
+    except FileNotFoundError:
+        print("Error: Archivo-Bold.ttf not found in assets directory. Using default font.")
+        draw.text(scale_coords((18, 20)), "app", fill=COLORS["dark_blue_gray"])
     return img
 
 def main():
@@ -448,8 +512,8 @@ def main():
         "com.micropythonos.soundrecorder": generate_soundrecorder_icon,
         "com.micropythonos.about": generate_about_icon,
         "com.micropythonos.appstore": generate_appstore_icon,
-        "com.micropythonos.launcher": generate_launcher_icon,
         "com.micropythonos.osupdate": generate_osupdate_icon,
+        "com.micropythonos.launcher": generate_launcher_icon,
         "com.micropythonos.settings": generate_settings_icon,
         "com.micropythonos.wifi": generate_wifi_icon,
         "MPOS-QuasiBird": generate_quasi_bird_icon,
@@ -474,19 +538,80 @@ def generate_settings_icon():
     import math
     
     img, draw = create_icon_base()
-    # Big gear with multiple teeth on a circle background
-    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=scale_coords(2))
-    
-    # Gear body (large)
-    draw.ellipse(scale_coords([(12, 12), (52, 52)]), fill=COLORS["charcoal_gray"])
-    
+
+    background_color = COLORS["silver_gray"]
+    background_outline_color = COLORS["light_gray"]
+    gear_color = COLORS["charcoal_gray"]
+    gear_outline_color = COLORS["black"]
+
     # Gear teeth (16 evenly spaced teeth)
     center_x, center_y = 32, 32  # Center of the 64x64 image
-    radius = 18  # Radius of the gear
-    tooth_width = 8  # Width of each tooth
-    tooth_height = 6  # Height of each tooth
+    radius = 14  # Radius of the gear
+    inner_radius = 9  # Radius of the inner gear body
+    hole_radius = 4
+    tooth_width = 6  # Width of each tooth
+    tooth_height = 7  # Height of each tooth
     teeth_amount = 12
-    border_width = 2
+    border_width = 1
+
+    inner_radius = inner_radius * 2
+    hole_radius = hole_radius * 2
+
+    # Big gear with multiple teeth on a circle background
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=background_color, outline=background_outline_color, width=scale_coords(2))
+    
+    # Gear body (large)
+    draw.ellipse(scale_coords([(center_x - inner_radius, center_y - inner_radius),
+                               (center_x + inner_radius, center_y + inner_radius)]),
+                 fill=gear_color, outline=gear_outline_color, width=2)
+    
+    # First pass: Draw border spokes
+    for i in range(teeth_amount):
+        # Calculate angle for each tooth (360 degrees / 16 teeth)
+        angle = i * (360 / teeth_amount)
+        
+        # Convert angle to radians
+        angle_rad = math.radians(angle)
+        
+        # Calculate the outer point of the tooth
+        outer_x = center_x + radius * math.cos(angle_rad)
+        outer_y = center_y + radius * math.sin(angle_rad)
+        
+        # Calculate perpendicular points for the tooth
+        perp_angle = angle_rad + math.pi/2
+        tooth_half_width = tooth_width / 2 + border_width
+        
+        # Calculate tooth points
+        tooth_point1_x = outer_x + tooth_half_width * math.cos(perp_angle)
+        tooth_point1_y = outer_y + tooth_half_width * math.sin(perp_angle)
+        
+        tooth_point2_x = outer_x - tooth_half_width * math.cos(perp_angle)
+        tooth_point2_y = outer_y - tooth_half_width * math.sin(perp_angle)
+        
+        # Extend tooth outward
+        tooth_outer_point1_x = tooth_point1_x + (tooth_height + border_width) * math.cos(angle_rad)
+        tooth_outer_point1_y = tooth_point1_y + (tooth_height + border_width) * math.sin(angle_rad)
+        
+        tooth_outer_point2_x = tooth_point2_x + (tooth_height + border_width) * math.cos(angle_rad)
+        tooth_outer_point2_y = tooth_point2_y + (tooth_height + border_width) * math.sin(angle_rad)
+        
+        # Draw border tooth
+        draw.polygon(
+            scale_coords([
+                (tooth_point1_x, tooth_point1_y),
+                (tooth_point2_x, tooth_point2_y),
+                (tooth_outer_point2_x, tooth_outer_point2_y),
+                (tooth_outer_point1_x, tooth_outer_point1_y)
+            ]),
+            fill=gear_outline_color
+        )
+    
+    # Redraw the central circle to cover the border
+    draw.ellipse(scale_coords([(center_x - inner_radius, center_y - inner_radius),
+                               (center_x + inner_radius, center_y + inner_radius)]),
+                 fill=gear_color, outline=gear_outline_color, width=2)
+    
+    # Second pass: Draw inner spokes
     for i in range(teeth_amount):
         # Calculate angle for each tooth (360 degrees / 16 teeth)
         angle = i * (360 / teeth_amount)
@@ -516,7 +641,7 @@ def generate_settings_icon():
         tooth_outer_point2_x = tooth_point2_x + tooth_height * math.cos(angle_rad)
         tooth_outer_point2_y = tooth_point2_y + tooth_height * math.sin(angle_rad)
         
-        # Draw tooth
+        # Draw inner tooth
         draw.polygon(
             scale_coords([
                 (tooth_point1_x, tooth_point1_y),
@@ -524,11 +649,12 @@ def generate_settings_icon():
                 (tooth_outer_point2_x, tooth_outer_point2_y),
                 (tooth_outer_point1_x, tooth_outer_point1_y)
             ]),
-            fill=COLORS["charcoal_gray"]
+            fill=gear_color
         )
     
     # Central hole
-    draw.ellipse(scale_coords([(25, 25), (39, 39)]), fill=COLORS["silver_gray"])
+    draw.ellipse(scale_coords([(center_x - hole_radius, center_y - hole_radius), (center_x + hole_radius, center_y + hole_radius)]),
+                 fill=background_color, outline=gear_outline_color, width=4)
     
     return img
 
