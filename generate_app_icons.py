@@ -202,16 +202,33 @@ def generate_connect4_icon():
 
 def generate_draw_icon():
     img, draw = create_icon_base()
+
+    pencil_point_x=26
+    pencil_point_y=40
+    pencil_outline_color = COLORS["dark_orange"]
+    pencil_color = COLORS["sun_yellow"]
+    pencil_line_color = COLORS["bright_blue"]
+    x_offset = -5
     # Circle background
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
     
-    # Circle canvas
-    draw.ellipse(scale_coords([(10, 10), (50, 50)]), fill=COLORS["white"], outline=COLORS["silver_gray"], width=8)
-    
-    # Squiggly line being drawn
-    draw.arc(scale_coords([(15, 20), (45, 40)]), start=0, end=180, fill=COLORS["bright_blue"], width=16)
-    draw.arc(scale_coords([(15, 30), (45, 50)]), start=180, end=0, fill=COLORS["red_orange"], width=16)
-    
+    draw.line(scale_coords([(25+x_offset, 45), (55, 45)]), fill=pencil_line_color, width=12)
+    # draw.polygon(scale_coords([(20, 45), (25, 30), (35, 35)]), fill=pencil_line_color, outline=pencil_outline_color, width=0)
+    draw.polygon(scale_coords([(25+x_offset, 43), (29+x_offset, 31), (36+x_offset, 37)]), fill=pencil_line_color, outline=pencil_outline_color, width=0)
+    # Cover edge
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), outline=COLORS["light_gray"], width=8)
+    # PENCIL BODY
+    draw.polygon(scale_coords([ (30+x_offset, 30), (37+x_offset, 36), (60+x_offset,10), (54+x_offset,4)]), fill=pencil_line_color, outline=pencil_outline_color, width=0)
+    # pencil_x = 45
+    # pencil_y = 4
+    # pencil_width = 15
+    # pencil_height = 35
+    # pencil_offset = 15
+    # # draw.polygon(scale_coords([(pencil_x, pencil_y), (pencil_x+pencil_width, pencil_y), (pencil_x+pencil_width-pencil_offset, pencil_y+pencil_height), (pencil_x-pencil_offset, pencil_y+pencil_height)]), fill=pencil_color, outline=pencil_outline_color, width=10)
+    # draw.polygon(scale_coords([(pencil_point_x, pencil_point_y+1), (25, 30), (40, 38)]), fill=pencil_color, outline=pencil_outline_color, width=0)
+    # draw.polygon(scale_coords([(45, 2), (60,12),  (45, 30), (30, 20)]), fill=pencil_color, outline=pencil_outline_color, width=1)
+    # draw.polygon(scale_coords([(32, y_pos-40), (54, y_pos), (10, y_pos)]), fill=COLORS["sun_yellow"], outline=COLORS["dark_orange"], width=10)
+
     return img
 
 def generate_errortest_icon():
@@ -230,31 +247,35 @@ def generate_filemanager_icon():
     img, draw = create_icon_base()
     # Circle background
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
-    
-    # Tree view representation
-    # Trunk/main line
-    draw.rectangle(scale_coords([(30, 10), (34, 50)]), fill=COLORS["dark_blue_gray"], width=8)
-    
-    # Branches
-    # Left branch
-    draw.line(scale_coords([(30, 20), (20, 30)]), fill=COLORS["dark_blue_gray"], width=8)
-    # Right branch
-    draw.line(scale_coords([(30, 30), (40, 40)]), fill=COLORS["dark_blue_gray"], width=8)
-    
-    # Another left branch
-    draw.line(scale_coords([(30, 40), (15, 50)]), fill=COLORS["dark_blue_gray"], width=8)
-    # Another right branch
-    draw.line(scale_coords([(30, 40), (45, 50)]), fill=COLORS["dark_blue_gray"], width=8)
-    
-    # Folder/file indicators at branch ends
-    # Left side
-    draw.rectangle(scale_coords([(12, 46), (18, 52)]), fill=COLORS["sun_yellow"], outline=COLORS["dark_orange"], width=4)
-    draw.rectangle(scale_coords([(15, 48), (21, 54)]), fill=COLORS["light_silver"], outline=COLORS["silver_gray"], width=4)
-    
-    # Right side
-    draw.rectangle(scale_coords([(42, 46), (48, 52)]), fill=COLORS["sun_yellow"], outline=COLORS["dark_orange"], width=4)
-    draw.rectangle(scale_coords([(45, 48), (51, 54)]), fill=COLORS["light_silver"], outline=COLORS["silver_gray"], width=4)
-    
+    folder_top = 14
+    folder_height = 34
+    folder_x = 10
+    folder_width = 44
+    content_y_offset = -4
+    front_offset_x = 7
+    front_offset_y = -8
+
+    # Define points for the folder shapes
+    # Folder back shape points
+    folder_back_points = [
+        (folder_x, folder_top), (28, folder_top), (32, folder_top-4), (folder_x+folder_width, folder_top-4), (folder_x+folder_width, folder_top+folder_height), (folder_x, folder_top+folder_height)
+    ]
+    # Folder content shape points (slightly smaller and offset)
+    folder_content_points = [
+        (12, folder_top-content_y_offset), (52, folder_top-content_y_offset), (52, folder_top+folder_height), (12, folder_top+folder_height)
+    ]
+    # Folder front shape points
+    folder_front_points = [
+        (folder_x-front_offset_x, folder_top-front_offset_y), (folder_x+folder_width-front_offset_x, folder_top-front_offset_y), (folder_x+folder_width, folder_top+folder_height), (folder_x, folder_top+folder_height)
+    ]
+
+    # Folder icon back shape
+    draw.polygon(scale_coords(folder_back_points), fill=COLORS["bright_blue"], outline=COLORS["steel_blue"], width=8)
+    # Folder content shape
+    draw.polygon(scale_coords(folder_content_points), fill=COLORS["silver_gray"],outline=COLORS["light_gray"], width=8)
+    # Folder front shape
+    draw.polygon(scale_coords(folder_front_points), fill=COLORS["bright_blue"], outline=COLORS["steel_blue"], width=8)
+
     return img
 
 def generate_helloworld_icon():
@@ -375,7 +396,8 @@ def generate_nostr_icon():
 
 def generate_showbattery_icon():
     img, draw = create_icon_base()
-    draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=8)
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=8)
     # Battery body
     draw.rounded_rectangle(scale_coords([(15, 20), (49, 44)]), radius=16, outline=COLORS["dark_blue_gray"], width=8)
     draw.rectangle(scale_coords([(49, 28), (52, 36)]), fill=COLORS["dark_blue_gray"])
@@ -385,20 +407,79 @@ def generate_showbattery_icon():
 
 def generate_showfonts_icon():
     img, draw = create_icon_base()
-    draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=8)
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=8)
     font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(28))
     draw.text(scale_coords((14, 16)), "Aa", font=font, fill=COLORS["steel_blue"])
     return img
 
 def generate_soundrecorder_icon():
     img, draw = create_icon_base()
-    # Microphone
-    draw.ellipse(scale_coords([(25, 15), (39, 30)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=8)
-    draw.rectangle(scale_coords([(30, 30), (34, 45)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=8)
-    draw.rectangle(scale_coords([(28, 45), (36, 48)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=8)
-    # Sound waves
-    draw.arc(scale_coords([(40, 20), (50, 30)]), start=90, end=270, fill=COLORS["bright_blue"], width=8)
-    draw.arc(scale_coords([(42, 18), (52, 32)]), start=90, end=270, fill=COLORS["bright_blue"], width=8)
+
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Colors
+    mic_color = COLORS["charcoal_gray"] # Red microphone
+    mic_dark = COLORS["black"]   # Darker red for shading
+    stand_color = COLORS["dark_blue_gray"]   # Darker red for shading
+    highlight = COLORS["light_gray"]   # Darker red for shading
+    # stand_color = (80, 80, 80, 255)  # Gray stand
+    # highlight = (255, 100, 100, 255)  # Light red highlight
+    
+    # Microphone head (rounded rectangle / ellipse)
+    mic_top = 8
+    mic_bottom = 36
+    mic_left = 20
+    mic_right = 44
+    
+    # Draw microphone body (rounded top)
+    draw.ellipse(scale_coords([mic_left, mic_top, mic_right, mic_top + 16]), fill=mic_color)
+    draw.rectangle(scale_coords([mic_left, mic_top + 8, mic_right, mic_bottom]), fill=mic_color)
+    draw.ellipse(scale_coords([mic_left, mic_bottom - 8, mic_right, mic_bottom + 8]), fill=mic_color)
+    
+    # Microphone grille lines (horizontal lines on mic head)
+    for y in range(mic_top + 6, mic_bottom - 4, 4):
+        draw.line(scale_coords([(mic_left + 4, y), (mic_right - 4, y)]), fill=mic_dark, width=scale_coords(1))
+    
+    # Highlight on left side of mic
+    draw.arc(scale_coords([mic_left + 2, mic_top + 2, mic_left + 10, mic_top + 18]),
+             start=120, end=240, fill=highlight, width=scale_coords(2))
+    
+    # Microphone stand (curved arc under the mic)
+    stand_top = mic_bottom + 4
+    
+    # Vertical stem from mic
+    stem_x = BASE_SIZE // 2
+    # draw.rectangle(scale_coords([stem_x - 2, mic_bottom, stem_x + 2, stand_top + 8]), fill=stand_color)
+    
+    # Curved holder around mic bottom
+    draw.arc(scale_coords([mic_left - 4, mic_bottom - 8, mic_right + 4, mic_bottom + 16]),
+             start=0, end=180, fill=stand_color, width=scale_coords(3))
+    
+    # Stand base
+    base_y = 54
+    draw.rectangle(scale_coords([stem_x - 2, stand_top + 4, stem_x + 2, base_y]), fill=stand_color)
+    draw.ellipse(scale_coords([stem_x - 12, base_y - 2, stem_x + 12, base_y + 6]), fill=stand_color)
+    
+    # OVERWRITE EDGE
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]),  outline=COLORS["light_gray"], width=8)
+    
+    # Recording indicator (red dot with glow effect)
+    dot_x, dot_y = 52, 12
+    dot_radius = 5
+    
+    # Glow effect
+    # for r in range(dot_radius + 3, dot_radius, -1):
+    #     alpha = int(100 * (dot_radius + 3 - r) / 3)
+    #     glow_color = (255, 0, 0, alpha)
+    #     draw.ellipse(scale_coords([dot_x - r, dot_y - r, dot_x + r, dot_y + r]), fill=glow_color)
+    
+    # Solid red dot
+    draw.ellipse(scale_coords([dot_x - dot_radius, dot_y - dot_radius,
+                  dot_x + dot_radius, dot_y + dot_radius]),
+                 fill=COLORS["red_orange"])
+    
+    # White highlight on dot
+    draw.ellipse(scale_coords([dot_x - 2, dot_y - 2, dot_x, dot_y]), fill=(255, 200, 200, 255))
     return img
 
 def generate_about_icon():
