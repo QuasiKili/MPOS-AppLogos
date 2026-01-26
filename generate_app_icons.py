@@ -165,7 +165,7 @@ def generate_connect4_icon():
     # draw.rectangle([(0, 0), (RENDER_SIZE, RENDER_SIZE)], fill=(52, 73, 94))
     
     # Draw blue board
-    # draw.rectangle(scale_coords([(4, 4), (60, 60)]), fill=COLORS["bright_blue"])
+    # draw.rectangle(scale_coords([(4, 4), (60, 60)]), fill=COLORS["bright_blue"]))
     draw.rounded_rectangle(scale_coords([(4, 4), (60, 60)]), radius=16, fill=COLORS["bright_blue"])
     
     # Colors for pieces
@@ -276,11 +276,11 @@ def generate_imageview_icon():
     img, draw = create_icon_base()
     # Mountain landscape
     draw.rounded_rectangle([scale_coords((4, 4)), scale_coords((60, 60))], fill=COLORS["bright_blue"], radius=scale_coords(4))
-    # draw.rectangle([(0, 0), (RENDER_SIZE, RENDER_SIZE)], fill=COLORS["bright_blue"])
-    # draw.polygon(scale_coords([(6, 40), (32, 15), (58, 40), (58, 58), (6, 58)]), fill=COLORS["emerald_green"])
+    # draw.rectangle([(0, 0), (RENDER_SIZE, RENDER_SIZE)], fill=COLORS["bright_blue"]))
+    # draw.polygon(scale_coords([(6, 40), (32, 15), (58, 40), (58, 58), (6, 58)]), fill=COLORS["emerald_green"]))
     draw.rounded_rectangle([scale_coords((4, 40)), scale_coords((60, 60))], fill=COLORS["emerald_green"], radius=scale_coords(4))
     # house
-    # draw.polygon(scale_coords([(14, 35), (24, 25), (34, 35), (34, 48), (14, 48)]), fill=COLORS["dark_blue_gray"])
+    # draw.polygon(scale_coords([(14, 35), (24, 25), (34, 35), (34, 48), (14, 48)]), fill=COLORS["dark_blue_gray"]))
     # landscape
     draw.polygon(scale_coords([(6, 40), (32, 26), (58, 40), (58, 58), (6, 58)]), fill=COLORS["emerald_green"])
     # Sun
@@ -292,21 +292,38 @@ def generate_imu_icon():
     x_color = COLORS["bright_blue"] 
     y_color = COLORS["dark_red"]
     z_color = COLORS["emerald_green"]
+    width = 2
+
+    # Draw background circle
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
-    draw.ellipse(scale_coords([(15, 25), (49, 39)]), outline=z_color, width=scale_coords(4) )
-    draw.ellipse(scale_coords([(10, 20), (54, 44)]), outline=y_color, width=scale_coords(4) )
-    draw.ellipse(scale_coords([(20, 10), (44, 54)]), outline=x_color, width=scale_coords(4) )
+
+    # Draw x_color ellipse directly (no rotation)
+    draw.ellipse(scale_coords([(20, 10), (44, 54)]), outline=x_color, width=scale_coords(width))
+
+    # Create temporary image for y_color ellipse, rotate, and paste
+    y_ellipse_img = Image.new('RGBA', (RENDER_SIZE, RENDER_SIZE), (0, 0, 0, 0))
+    y_ellipse_draw = ImageDraw.Draw(y_ellipse_img)
+    y_ellipse_draw.ellipse(scale_coords([(12, 22), (52, 42)]), outline=y_color, width=scale_coords(width))
+    # y_ellipse_draw.arc(scale_coords([(12, 22), (52, 42)]),start=-140, end=0, fill=y_color, width=scale_coords(width))
+    y_ellipse_rotated = y_ellipse_img.rotate(30, center=(RENDER_SIZE/2, RENDER_SIZE/2), expand=False)
+    img.paste(y_ellipse_rotated, (0, 0), y_ellipse_rotated)
+
+    # Create temporary image for z_color ellipse, rotate, and paste
+    z_ellipse_img = Image.new('RGBA', (RENDER_SIZE, RENDER_SIZE), (0, 0, 0, 0))
+    z_ellipse_draw = ImageDraw.Draw(z_ellipse_img)
+    z_ellipse_draw.ellipse(scale_coords([(14, 22), (50, 42)]), outline=z_color, width=scale_coords(width))
+    z_ellipse_rotated = z_ellipse_img.rotate(-30, center=(RENDER_SIZE/2, RENDER_SIZE/2), expand=False)
+    img.paste(z_ellipse_rotated, (0, 0), z_ellipse_rotated)
     
+    # Create temporary image for y_color ellipse, rotate, and paste
+    y_ellipse_img = Image.new('RGBA', (RENDER_SIZE, RENDER_SIZE), (0, 0, 0, 0))
+    y_ellipse_draw = ImageDraw.Draw(y_ellipse_img)
+    # y_ellipse_draw.ellipse(scale_coords([(12, 22), (52, 42)]), outline=y_color, width=scale_coords(width))
+    y_ellipse_draw.arc(scale_coords([(12, 22), (52, 42)]),start=-140, end=0, fill=y_color, width=scale_coords(width))
+    y_ellipse_rotated = y_ellipse_img.rotate(30, center=(RENDER_SIZE/2, RENDER_SIZE/2), expand=False)
+    img.paste(y_ellipse_rotated, (0, 0), y_ellipse_rotated)
     
-    # # Central circle (main body)
-    # draw.ellipse(scale_coords([(12, 12), (52, 52)]), fill=COLORS["dark_blue_gray"])
-    # # Inner circle (representing sensor)
-    # draw.ellipse(scale_coords([(20, 20), (44, 44)]), fill=COLORS["charcoal_gray"])
-    # # Small central dot (indicator)
-    # draw.ellipse(scale_coords([(29, 29), (35, 35)]), fill=COLORS["bright_blue"])
-    # Horizontal and vertical bars (axes)
-    # draw.rectangle(scale_coords([(10, 30), (54, 34)]), fill=COLORS["light_gray"])
-    # draw.rectangle(scale_coords([(30, 10), (34, 54)]), fill=COLORS["light_gray"])
+    draw.arc(scale_coords([(20, 10), (44, 54)]),start=-50, end=44, fill=x_color, width=scale_coords(width))
     return img
 
 def generate_musicplayer_icon():
@@ -330,19 +347,19 @@ def generate_musicplayer_icon():
 
     # Main music note shape
     draw.ellipse(scale_coords([(note_x-note_size+note_thick, note_y-note_size+(note_size/2)), (note_x+note_thick, note_y+(note_size/2))]), fill=note_color)
-    # draw.rectangle(scale_coords([(note_x+note_size-note_thick, note_height), (note_x+note_size, note_y-(note_size/2))]), fill=COLORS["red_orange"])
+    # draw.rectangle(scale_coords([(note_x+note_size-note_thick, note_height), (note_x+note_size, note_y-(note_size/2))]), fill=COLORS["red_orange"]))
     # Second note
     draw.ellipse(scale_coords([(note_x-note_size + second_note_x_offset, note_y-note_size+second_note_y_offset+(note_size/2)), (note_x+ second_note_x_offset, note_y+second_note_y_offset+(note_size/2))]), fill=note_color)
-    # draw.rectangle(scale_coords([(note_x+note_size-note_thick+ second_note_x_offset, note_height+second_note_y_offset), (note_x+note_size+ second_note_x_offset, note_y-(note_size/2)+second_note_y_offset)]), fill=COLORS["red_orange"])
+    # draw.rectangle(scale_coords([(note_x+note_size-note_thick+ second_note_x_offset, note_height+second_note_y_offset), (note_x+note_size+ second_note_x_offset, note_y-(note_size/2)+second_note_y_offset)]), fill=COLORS["red_orange"]))
     # Connection
-    # draw.line(([scale_coords((note_x+note_size-note_thick+ second_note_x_offset+3, note_height+second_note_y_offset)),scale_coords((note_x+note_size-3, note_height))]), fill=COLORS["red_orange"], width=scale_coords(3) )
+    # draw.line(([scale_coords((note_x+note_size-note_thick+ second_note_x_offset+3, note_height+second_note_y_offset)),scale_coords((note_x+note_size-3, note_height))]), fill=COLORS["red_orange"], width=scale_coords(3) ))
 
 
 
-    # draw.arc(scale_coords([(35, 13), (48, 28)]), start=270, end=90, fill=COLORS["red_orange"], width=2)
+    # draw.arc(scale_coords([(35, 13), (48, 28)]), start=270, end=90, fill=COLORS["red_orange"], width=2))
     
     # Play button triangle (integrated)
-    # draw.polygon(scale_coords([(25, 25), (40, 32), (25, 39)]), fill=COLORS["white"])
+    # draw.polygon(scale_coords([(25, 25), (40, 32), (25, 39)]), fill=COLORS["white"]))
     return img
 
 def generate_nostr_icon():
@@ -358,24 +375,19 @@ def generate_nostr_icon():
 
 def generate_showbattery_icon():
     img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=8)
     # Battery body
     draw.rounded_rectangle(scale_coords([(15, 20), (49, 44)]), radius=16, outline=COLORS["dark_blue_gray"], width=8)
     draw.rectangle(scale_coords([(49, 28), (52, 36)]), fill=COLORS["dark_blue_gray"])
     # Battery level (green)
-    draw.rectangle(scale_coords([(17, 22), (47, 42)]), fill=COLORS["emerald_green"])
+    draw.rounded_rectangle(scale_coords([(17, 22), (47, 42)]), fill=COLORS["emerald_green"],radius=16)
     return img
 
 def generate_showfonts_icon():
     img, draw = create_icon_base()
-    # A
-    draw.polygon(scale_coords([(10, 40), (20, 10), (30, 40)]), fill=COLORS["red_orange"], outline=COLORS["dark_red"], width=8)
-    draw.line(scale_coords([(15, 30), (25, 30)]), fill=COLORS["red_orange"], width=8)
-    # a
-    draw.ellipse(scale_coords([(35, 25), (45, 35)]), fill=COLORS["bright_blue"], outline=COLORS["steel_blue"], width=8)
-    draw.line(scale_coords([(45, 28), (45, 40)]), fill=COLORS["bright_blue"], width=8)
-    # Ruler/underline
-    draw.line(scale_coords([(10, 50), (54, 50)]), fill=COLORS["dark_blue_gray"], width=8)
-    draw.line(scale_coords([(10, 52), (54, 52)]), fill=COLORS["dark_blue_gray"], width=4)
+    draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=8)
+    font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(28))
+    draw.text(scale_coords((14, 16)), "Aa", font=font, fill=COLORS["steel_blue"])
     return img
 
 def generate_soundrecorder_icon():
@@ -391,7 +403,7 @@ def generate_soundrecorder_icon():
 
 def generate_about_icon():
     img, draw = create_icon_base()
-    # draw.rounded_rectangle(scale_coords([(5, 5), (59, 59)]), radius=32, fill=COLORS["white"])
+    # draw.rounded_rectangle(scale_coords([(5, 5), (59, 59)]), radius=32, fill=COLORS["white"]))
     draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=COLORS["bright_blue"], outline=COLORS["silver_gray"], width=8)
     # Load the MicroPythonOS logo symbol
     try:
@@ -404,7 +416,7 @@ def generate_about_icon():
         # Paste the logo onto the icon
         img.paste(logo, (x, y), logo)
         # font = ImageFont.truetype("assets/Archivo-Bold.ttf", 100)
-        # draw.text(scale_coords((29, 19)), "i", font=font, fill=COLORS["white"])
+        # draw.text(scale_coords((29, 19)), "i", font=font, fill=COLORS["white"]))
         draw.rectangle(scale_coords([(30, 29), (34, 41)]), fill=COLORS["white"])
         draw.ellipse(scale_coords([(30, 22), (34, 26)]), fill=COLORS["white"])
         
@@ -415,10 +427,10 @@ def generate_about_icon():
 
 def generate_appstore_icon():
     img, draw = create_icon_base()
-    # draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8))
     draw.ellipse(scale_coords([(4, 4), (60,60)]), fill=COLORS["charcoal_gray"], outline=COLORS["silver_gray"], width=8)
     # Draw a rounded rectangle as the base
-    # draw.rounded_rectangle(scale_coords([(5, 5), (59, 59)]), radius=32, fill=COLORS["light_silver"], outline=COLORS["silver_gray"], width=8)
+    # draw.rounded_rectangle(scale_coords([(5, 5), (59, 59)]), radius=32, fill=COLORS["light_silver"], outline=COLORS["silver_gray"], width=8))
     # Draw four mini square items representing apps
     app_colors = [COLORS["bright_blue"], COLORS["emerald_green"], COLORS["sun_yellow"], COLORS["amethyst_purple"]]
     app_positions = [
