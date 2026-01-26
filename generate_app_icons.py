@@ -198,17 +198,7 @@ def generate_connect4_icon():
     
     return img
 
-def generate_doom_launcher_icon():
-    img, draw = create_icon_base()
-    # Fiery background
-    draw.rectangle([(0, 0), (RENDER_SIZE, RENDER_SIZE)], fill=COLORS["dark_red"])
-    # Stylized "D" using shapes
-    draw.arc(scale_coords([(15, 10), (45, 50)]), start=270, end=90, fill=COLORS["sun_yellow"], width=32)
-    draw.line(scale_coords([(19, 10), (19, 50)]), fill=COLORS["sun_yellow"], width=32)
-    # Flame effect (simple triangles)
-    draw.polygon(scale_coords([(5, 55), (15, 45), (25, 55)]), fill=COLORS["dark_orange"])
-    draw.polygon(scale_coords([(40, 50), (50, 40), (60, 50)]), fill=COLORS["dark_orange"])
-    return img
+
 
 def generate_draw_icon():
     img, draw = create_icon_base()
@@ -268,26 +258,30 @@ def generate_filemanager_icon():
 
 def generate_helloworld_icon():
     img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
     # Speech bubble
-    draw.rounded_rectangle(scale_coords([(5, 10), (59, 45)]), radius=32, fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
-    draw.polygon(scale_coords([(20, 45), (28, 55), (30, 45)]), fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
+    draw.rounded_rectangle(scale_coords([(5, 14), (59, 50)]), radius=32, fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
+    draw.polygon(scale_coords([(20, 50), (28, 62), (30, 50)]), fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
     # Text "Hello!" using font
     try:
-        font = ImageFont.truetype("assets/Archivo-Bold.ttf", 60)
-        draw.text(scale_coords((12, 19)), "Hello!", font=font, fill=COLORS["white"])
+        font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(15))
+        draw.text(scale_coords((12, 25)), "Hello!", font=font, fill=COLORS["white"])
     except:
         # Fallback if font not available
-        draw.text(scale_coords((12, 19)), "Hello!", fill=COLORS["white"])
+        draw.text(scale_coords((12, 25)), "Hello!", fill=COLORS["white"])
     return img
 
 def generate_imageview_icon():
     img, draw = create_icon_base()
     # Mountain landscape
-    draw.rectangle([(0, 0), (RENDER_SIZE, RENDER_SIZE)], fill=COLORS["bright_blue"])
-    draw.polygon(scale_coords([(0, 40), (32, 15), (64, 40), (64, 64), (0, 64)]), fill=COLORS["emerald_green"])
-    draw.polygon(scale_coords([(10, 45), (25, 30), (40, 45), (40, 64), (10, 64)]), fill=COLORS["emerald_green"])
+    draw.rounded_rectangle([scale_coords((4, 4)), scale_coords((60, 60))], fill=COLORS["bright_blue"], radius=scale_coords(4))
+    # draw.rectangle([(0, 0), (RENDER_SIZE, RENDER_SIZE)], fill=COLORS["bright_blue"])
+    # draw.polygon(scale_coords([(6, 40), (32, 15), (58, 40), (58, 58), (6, 58)]), fill=COLORS["emerald_green"])
+    draw.rounded_rectangle([scale_coords((4, 40)), scale_coords((60, 60))], fill=COLORS["emerald_green"], radius=scale_coords(4))
+    draw.polygon(scale_coords([(14, 35), (24, 25), (34, 35), (34, 48), (14, 48)]), fill=COLORS["dark_blue_gray"])
+    # draw.polygon(scale_coords([(6, 40), (32, 15), (58, 40), (58, 58), (6, 58)]), fill=COLORS["emerald_green"])
     # Sun
-    draw.ellipse(scale_coords([(45, 5), (59, 19)]), fill=COLORS["sun_yellow"])
+    draw.ellipse(scale_coords([(39, 12), (53, 27)]), fill=COLORS["sun_yellow"])
     return img
 
 def generate_imu_icon():
@@ -441,7 +435,6 @@ def main():
         "com.micropythonos.camera": generate_camera_icon,
         "com.micropythonos.confetti": generate_confetti_icon,
         "com.micropythonos.connect4": generate_connect4_icon,
-        "com.micropythonos.doom_launcher": generate_doom_launcher_icon,
         "com.micropythonos.draw": generate_draw_icon,
         "com.micropythonos.errortest": generate_errortest_icon,
         "com.micropythonos.filemanager": generate_filemanager_icon,
@@ -482,7 +475,7 @@ def generate_settings_icon():
     
     img, draw = create_icon_base()
     # Big gear with multiple teeth on a circle background
-    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=scale_coords(2))
     
     # Gear body (large)
     draw.ellipse(scale_coords([(12, 12), (52, 52)]), fill=COLORS["charcoal_gray"])
@@ -493,6 +486,7 @@ def generate_settings_icon():
     tooth_width = 8  # Width of each tooth
     tooth_height = 6  # Height of each tooth
     teeth_amount = 12
+    border_width = 2
     for i in range(teeth_amount):
         # Calculate angle for each tooth (360 degrees / 16 teeth)
         angle = i * (360 / teeth_amount)
