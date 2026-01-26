@@ -758,18 +758,20 @@ def generate_settings_icon():
 
 def generate_wifi_icon():
     img, draw = create_icon_base()
+    width = 7
+    height = 18
     # Circle background
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
     
     # Wifi connection arcs
     # Outer arc (weakest signal)
-    draw.arc(scale_coords([(12, 22), (52, 62)]), start=225, end=315, fill=COLORS["bright_blue"], width=20)
+    draw.arc(scale_coords([(3.2, height), (60.8, height - 13.2 + 70.8)]), start=225, end=315, fill=COLORS["bright_blue"], width=scale_coords(width))
     
     # Middle arc (medium signal)
-    draw.arc(scale_coords([(20, 30), (44, 54)]), start=225, end=315, fill=COLORS["bright_blue"], width=20)
+    draw.arc(scale_coords([(15.1, height - 13.2 +25.1), (49.9, height - 13.2 +59.9)]), start=225, end=315, fill=COLORS["bright_blue"], width=scale_coords(width))
    
     # Inner arc (strongest signal)
-    draw.arc(scale_coords([(28, 38), (36, 46)]), start=225, end=315, fill=COLORS["bright_blue"], width=20)
+    draw.arc(scale_coords([(26, height - 13.2 +36), (38, height - 13.2 +48)]), start=225, end=315, fill=COLORS["bright_blue"], width=scale_coords(width))
    
     return img
 
