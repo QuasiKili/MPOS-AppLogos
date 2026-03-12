@@ -612,6 +612,7 @@ def main():
         "com.micropythonos.appstore": generate_appstore_icon,
         "com.micropythonos.osupdate": generate_osupdate_icon,
         "com.micropythonos.launcher": generate_launcher_icon,
+        "com.micropythonos.howto": generate_howto_icon,
         "com.micropythonos.settings": generate_settings_icon,
         "com.micropythonos.wifi": generate_wifi_icon,
         "MPOS-QuasiBird": generate_quasi_bird_icon,
@@ -773,6 +774,73 @@ def generate_wifi_icon():
     # Inner arc (strongest signal)
     draw.arc(scale_coords([(26, height - 13.2 +36), (38, height - 13.2 +48)]), start=225, end=315, fill=COLORS["bright_blue"], width=scale_coords(width))
    
+    return img
+
+def generate_howto_icon():
+    img, draw = create_icon_base()
+    # Circle background
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    
+    # Blackboard (green with white lines and symbols) - horizontally centered, big, slightly above vertical center
+    board_left = 8
+    board_top = 10
+    board_right = 56
+    board_bottom = 50
+    # Dark edge outline
+    draw.rounded_rectangle(scale_coords([(board_left, board_top), (board_right, board_bottom)]), radius=4, fill=COLORS["emerald_green"], outline=COLORS["dark_blue_gray"], width=4)
+    
+    # White text-like blocks on blackboard using loops
+    # Adjustable parameters
+    text_block_spacing = 2
+    text_line_width_1 = 8
+    text_line_width_2 = 8
+    text_line_width_3 = 10
+    
+    # Block 1: 3 lines of text on left side
+    for line in range(3):
+        line_y = board_top + 8 + (line * text_block_spacing)
+        draw.line(scale_coords([(board_left + 4, line_y), (board_left + 4 + text_line_width_1, line_y)]), fill=COLORS["white"], width=2)
+    
+    # Block 2: 4 lines of text in center
+    for line in range(4):
+        line_y = board_top + 8 + (line * text_block_spacing)
+        draw.line(scale_coords([(board_left + 16, line_y), (board_left + 16 + text_line_width_2, line_y)]), fill=COLORS["white"], width=2)
+    
+    # Block 3: "?" text on right side
+    try:
+        font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(36))
+        draw.text(scale_coords((board_left + 25, board_top - 0)), "?", font=font, fill=COLORS["white"])
+    except:
+        # Fallback if font not available
+        draw.text(scale_coords((board_left + 30, board_top + 10)), "?", fill=COLORS["white"])
+    
+    # Teacher figure (dark grey silhouette) - positioned bottom left, partially outside circle
+    # Body
+    draw.rectangle(scale_coords([(10, 38), (26, 58)]), fill=COLORS["charcoal_gray"])
+    # Head
+    draw.ellipse(scale_coords([(10, 26), (26, 42)]), fill=COLORS["charcoal_gray"])
+    # Left arm
+    draw.rectangle(scale_coords([(4, 38), (10, 52)]), fill=COLORS["charcoal_gray"])
+    # Right arm (holding stick)
+    draw.rectangle(scale_coords([(26, 38), (32, 52)]), fill=COLORS["charcoal_gray"])
+    
+    # Stick (angled up, held in right hand) - smaller and shorter
+    stick_start_x = 28
+    stick_start_y = 42
+    stick_end_x = 38
+    stick_end_y = 29
+    stick_width = 2
+    # Draw stick as a rotated rectangle (approximated with polygon)
+    stick_points = scale_coords([
+        (stick_start_x - stick_width, stick_start_y),
+        (stick_start_x + stick_width, stick_start_y),
+        (stick_end_x + stick_width, stick_end_y),
+        (stick_end_x - stick_width, stick_end_y)
+    ])
+    draw.polygon(stick_points, fill=COLORS["dark_orange"])
+    # Stick tip
+    draw.ellipse(scale_coords([(stick_end_x - 2, stick_end_y - 2), (stick_end_x + 2, stick_end_y + 2)]), fill=COLORS["dark_orange"])
+    
     return img
 
 if __name__ == "__main__":
