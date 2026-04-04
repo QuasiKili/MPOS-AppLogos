@@ -615,6 +615,9 @@ def main():
         "com.micropythonos.howto": generate_howto_icon,
         "com.micropythonos.settings": generate_settings_icon,
         "com.micropythonos.wifi": generate_wifi_icon,
+        "com.micropythonos.manage_apps": generate_manage_apps_icon,
+        "com.micropythonos.delete_apps": generate_delete_apps_icon,
+        "com.micropythonos.update_apps": generate_update_apps_icon,
         "MPOS-QuasiBird": generate_quasi_bird_icon,
         "MPOS-QuasiCalculator": generate_quasi_calculator_icon,
         "MPOS-QuasiNametag": generate_quasi_nametag_icon,
@@ -840,6 +843,98 @@ def generate_howto_icon():
     draw.polygon(stick_points, fill=COLORS["dark_orange"])
     # Stick tip
     draw.ellipse(scale_coords([(stick_end_x - 2, stick_end_y - 2), (stick_end_x + 2, stick_end_y + 2)]), fill=COLORS["dark_orange"])
+    
+    return img
+
+def generate_manage_apps_icon():
+    img, draw = create_icon_base()
+    background_color = COLORS["silver_gray"]
+    
+    # Circle background
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=background_color, outline=COLORS["light_gray"], width=8)
+    
+    app_colors = [COLORS["light_silver"], COLORS["light_silver"], COLORS["light_silver"], COLORS["light_silver"]]
+    app_positions = [
+        (18, 12), (34, 12),
+        (18, 28), (34, 28),
+    ]
+    for i, (x, y) in enumerate(app_positions):
+        draw.rectangle(scale_coords([(x, y), (x + 12, y + 12)]), fill=app_colors[i])
+    
+
+    # 1. Trash can (from generate_delete_apps_icon) - positioned on the left, smaller
+    # Lid
+    draw.rounded_rectangle(scale_coords([(12, 28), (28, 31)]), radius=2, fill=COLORS["dark_red"])
+    draw.rectangle(scale_coords([(17, 25), (23, 28)]), fill=COLORS["dark_red"])
+    
+    # Body
+    draw.polygon(scale_coords([(12, 33), (28, 33), (25, 52), (15, 52)]), fill=COLORS["red_orange"], outline=COLORS["dark_red"], width=4)
+    
+    # Vertical lines on body
+    for x in [17, 20, 23]:
+        draw.line(scale_coords([(x, 36), (x, 48)]), fill=COLORS["dark_red"], width=scale_coords(1))
+
+    # 2. Update Arrow (from generate_update_apps_icon) - positioned on the right, smaller
+    arrow_color = COLORS["bright_blue"]
+    arrow_bottom = 52
+    outline_width = 2
+    
+    # Draw an upload symbol (up arrow)
+    draw.rectangle(scale_coords([(40, 38), (48, arrow_bottom)]), fill=arrow_color, outline=background_color, width=scale_coords(outline_width))
+    draw.polygon(scale_coords([(35, 37), (53, 37), (44, 26)]), fill=arrow_color)
+    draw.rectangle(scale_coords([(41, 36), (47, arrow_bottom-outline_width)]), fill=arrow_color)
+    
+    return img
+
+def generate_delete_apps_icon():
+    img, draw = create_icon_base()
+    # Circle background
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    
+    # Trash can
+    # Lid
+    draw.rounded_rectangle(scale_coords([(18, 14), (46, 18)]), radius=2, fill=COLORS["dark_red"])
+    draw.rectangle(scale_coords([(28, 10), (36, 14)]), fill=COLORS["dark_red"])
+    
+    # Body
+    draw.polygon(scale_coords([(18, 20), (46, 20), (42, 54), (22, 54)]), fill=COLORS["red_orange"], outline=COLORS["dark_red"], width=4)
+    
+    # Vertical lines on body
+    for x in [26, 32, 38]:
+        draw.line(scale_coords([(x, 26), (x, 48)]), fill=COLORS["dark_red"], width=scale_coords(1))
+        
+    return img
+
+def generate_update_apps_icon():
+    img, draw = create_icon_base()
+    background_color = COLORS["silver_gray"]
+    # background_color = COLORS["charcoal_gray"]
+    arrow_color = COLORS["bright_blue"]
+    
+    # 1. Background: circular style (silver gray with light gray outline)
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=background_color, outline=COLORS["light_gray"], width=8)
+    
+    # 2. App Squares: four mini square items representing apps (from generate_appstore_icon)
+    # app_colors = [COLORS["bright_blue"], COLORS["emerald_green"], COLORS["sun_yellow"], COLORS["amethyst_purple"]]
+    
+    # "light_silver": "#ECF0F1",
+    # "silver_gray": "#BDC3C7",
+    app_colors = [COLORS["light_silver"], COLORS["light_silver"], COLORS["light_silver"], COLORS["light_silver"]]
+    app_positions = [
+        (18, 12), (34, 12),
+        (18, 28), (34, 28),
+    ]
+    for i, (x, y) in enumerate(app_positions):
+        draw.rectangle(scale_coords([(x, y), (x + 12, y + 12)]), fill=app_colors[i])
+    
+    # 3. Arrow: upwards arrow (from generate_osupdate_icon)
+    # Positioned to be balanced with the squares
+    arrow_bottom = 56
+    outline_width = 2
+    # Draw an upload symbol (up arrow)
+    draw.rectangle(scale_coords([(24, 35), (40, arrow_bottom)]), fill=arrow_color, outline=background_color, width=scale_coords(outline_width))
+    draw.polygon(scale_coords([(19, 34), (45, 34), (32, 22)]), fill=arrow_color)
+    draw.rectangle(scale_coords([(25, 33), (39, arrow_bottom-outline_width)]), fill=arrow_color)
     
     return img
 
