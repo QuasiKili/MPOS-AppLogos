@@ -1174,15 +1174,65 @@ def generate_navstar_icon():
 def generate_weather_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
-    # Sun
-    draw.ellipse(scale_coords([(36, 8), (52, 24)]), fill=COLORS["sun_yellow"])
-    # Cloud
-    draw.ellipse(scale_coords([(14, 26), (34, 42)]), fill=COLORS["light_gray"])
-    draw.ellipse(scale_coords([(24, 22), (44, 38)]), fill=COLORS["light_gray"])
-    draw.ellipse(scale_coords([(34, 28), (50, 40)]), fill=COLORS["light_gray"])
-    # Thermometer
-    draw.rounded_rectangle(scale_coords([(12, 40), (20, 54)]), radius=4, fill=COLORS["red_orange"], outline=COLORS["dark_red"], width=2)
-    draw.ellipse(scale_coords([(12, 44), (20, 52)]), fill=COLORS["red_orange"], outline=COLORS["dark_red"], width=2)
+
+    import math
+
+    # Bigger sun with rays (behind cloud)
+    sun_cx, sun_cy = 44, 22
+    sun_r = 12
+    draw.ellipse(scale_coords([(sun_cx - sun_r, sun_cy - sun_r), (sun_cx + sun_r, sun_cy + sun_r)]), fill=COLORS["sun_yellow"])
+    for angle in range(0, 360, 45):
+        a = math.radians(angle)
+        x1 = sun_cx + (sun_r + 2) * math.cos(a)
+        y1 = sun_cy + (sun_r + 2) * math.sin(a)
+        x2 = sun_cx + (sun_r + 9) * math.cos(a)
+        y2 = sun_cy + (sun_r + 9) * math.sin(a)
+        draw.line(scale_coords([(x1, y1), (x2, y2)]), fill=COLORS["sun_yellow"], width=12)
+
+    # Bigger cloud (in front of sun)
+    draw.ellipse(scale_coords([(11, 27), (33, 49)]), fill=COLORS["charcoal_gray"])
+    draw.ellipse(scale_coords([(25, 21), (47, 43)]), fill=COLORS["charcoal_gray"])
+    draw.ellipse(scale_coords([(35, 29), (53, 47)]), fill=COLORS["charcoal_gray"])
+
+    # Thermometer with adjustable variables
+    bulb_w = 16
+    bulb_h = 16
+    stem_w = 14
+    stem_h = 32
+    outline = 2
+    percentage = 50  # how high red mercury reaches (0-100)
+
+    cx = 15
+    bulb_bottom = 58
+    bulb_top = bulb_bottom - bulb_h
+    bulb_mid_y = bulb_top + bulb_h // 2
+    stem_top = bulb_mid_y - stem_h
+
+    # Back body (light silver)
+    draw.ellipse(scale_coords([(cx - bulb_w // 2, bulb_top), (cx + bulb_w // 2, bulb_bottom)]), fill=COLORS["light_silver"])
+    draw.rounded_rectangle(scale_coords([(cx - stem_w // 2, stem_top), (cx + stem_w // 2, bulb_mid_y)]), radius=4, fill=COLORS["light_silver"])
+    draw.ellipse(scale_coords([(cx - bulb_w // 2, bulb_top), (cx + bulb_w // 2, bulb_bottom)]), fill=COLORS["light_silver"])
+
+    # Red fill (smaller by outline on all sides, creating border)
+    red_bulb_w = bulb_w - outline * 2
+    red_bulb_h = bulb_h - outline * 2
+    red_stem_w = stem_w - outline * 2
+
+    red_bulb_top = bulb_top + outline
+    red_bulb_bottom = bulb_bottom - outline
+    red_bulb_mid_y = red_bulb_top + red_bulb_h // 2
+
+    # Red bulb
+    draw.ellipse(scale_coords([(cx - red_bulb_w // 2, red_bulb_top), (cx + red_bulb_w // 2, red_bulb_bottom)]), fill=COLORS["red_orange"])
+
+    # Red stem height based on percentage
+    red_stem_total = red_bulb_mid_y - stem_top - outline
+    red_fill = int(red_stem_total * percentage / 100)
+    red_rect_top = red_bulb_mid_y - red_fill
+
+    if red_rect_top >= stem_top + outline:
+        draw.rounded_rectangle(scale_coords([(cx - red_stem_w // 2, red_rect_top), (cx + red_stem_w // 2, red_bulb_mid_y)]), radius=4, fill=COLORS["red_orange"])
+
     return img
 
 def generate_dj_addon_icon():
