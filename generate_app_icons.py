@@ -1162,38 +1162,48 @@ def generate_columns_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["charcoal_gray"], outline=COLORS["light_gray"], width=8)
 
-    # Tetris board with 1x3 vertical I-pieces
+    # --- Grid & block dimensions ---
+    cols = 5
+    rows = 6
     cell = 6            # block cell size
     gap = 2             # gap between cells
-    board_x0 = 4       # board left edge
-    board_y0 = 4        # board top
+    corner_r = 1        # block corner radius
     colors = [COLORS["bright_blue"], COLORS["emerald_green"], COLORS["red_orange"], COLORS["sun_yellow"]]
+
+    # Compute board origin to center in 64x64
+    board_w = cols * cell + (cols - 1) * gap
+    board_h = rows * cell + (rows - 1) * gap
+    board_x0 = (48 - board_w) // 2
+    board_y0 = (64 - board_h) // 2
+
+    import random
+    random.seed(6)
 
     def draw_block(col, row, color):
         x = board_x0 + col * (cell + gap)
         y = board_y0 + row * (cell + gap)
-        draw.rounded_rectangle(scale_coords([(x, y), (x + cell, y + cell)]), radius=1, fill=color, outline=COLORS["light_gray"], width=1)
+        draw.rounded_rectangle(scale_coords([(x, y), (x + cell, y + cell)]), radius=corner_r, fill=color, outline=COLORS["light_gray"], width=1)
 
-    # --- Settled I-pieces (1x3 vertical) at the bottom ---
-    # Each entry: (col, bottom_row, color_index) — occupies col, rows bottom_row-2 .. bottom_row
+    # --- Settled I-pieces (1x3 vertical) at the bottom, random colors ---
     settled = [
-        (0, 7, 0),   # blue in col 0, bottom at row 7
-        (1, 7, 1),   # green in col 1
-        (2, 6, 0),   # blue in col 2, bottom at row 6
-        (4, 7, 2),   # red in col 4
-        (5, 7, 3),   # yellow in col 5
-        (6, 6, 1),   # green in col 6, bottom at row 6
+        (0, rows - 1),
+        (1, rows - 1),
+        (2, rows - 2),
+        (4, rows - 1),
+        (5, rows - 1),
+        (6, rows - 2),
     ]
-    for col, bottom_row, ci in settled:
+    for col, bottom_row in settled:
         for r in range(3):
+            ci = random.randrange(len(colors))
             draw_block(col, bottom_row - 2 + r, colors[ci])
 
-    # --- Falling I-piece (1x3 vertical) in the air ---
+    # --- Falling I-piece (1x3 vertical) in the air, random color ---
     fall_col = 3
-    fall_top = 1      # top-most block of the falling piece
-    fall_color = colors[3]  # yellow
+    fall_top = 0
+    fc = random.randrange(len(colors))
     for r in range(3):
-        draw_block(fall_col, fall_top + r, fall_color)
+        draw_block(fall_col, fall_top + r, colors[fc])
     return img
 
 def generate_compass_icon():
