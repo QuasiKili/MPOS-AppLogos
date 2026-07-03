@@ -1451,41 +1451,39 @@ def generate_dj_addon_icon():
                            radius=cf_handle_r, fill=cf_color)
 
     
-    # --- Headphone (center-top) ---
-    hp_color = COLORS["silver_gray"]
-    hp_color = COLORS["sun_yellow"]
-    hp_band_box = [24, 1, 40, 18]
-    hp_cup_w, hp_cup_h = 5, 8
-    hp_cup_y0, hp_cup_y1 = 8, 16
+    # # --- Headphone (center-top) ---
+    # hp_color = COLORS["silver_gray"]
+    # hp_color = COLORS["sun_yellow"]
+    # hp_band_box = [24, 1, 40, 18]
+    # hp_cup_w, hp_cup_h = 5, 8
+    # hp_cup_y0, hp_cup_y1 = 8, 16
 
-    draw.arc(scale_coords(hp_band_box), start=180, end=0, fill=hp_color, width=12)
-    draw.ellipse(scale_coords([(hp_band_box[0] - hp_cup_w // 2, hp_cup_y0), (hp_band_box[0] + hp_cup_w // 2, hp_cup_y1)]), fill=hp_color)
-    draw.ellipse(scale_coords([(hp_band_box[2] - hp_cup_w // 2, hp_cup_y0), (hp_band_box[2] + hp_cup_w // 2, hp_cup_y1)]), fill=hp_color)
+    # draw.arc(scale_coords(hp_band_box), start=180, end=0, fill=hp_color, width=12)
+    # draw.ellipse(scale_coords([(hp_band_box[0] - hp_cup_w // 2, hp_cup_y0), (hp_band_box[0] + hp_cup_w // 2, hp_cup_y1)]), fill=hp_color)
+    # draw.ellipse(scale_coords([(hp_band_box[2] - hp_cup_w // 2, hp_cup_y0), (hp_band_box[2] + hp_cup_w // 2, hp_cup_y1)]), fill=hp_color)
     
     
-    # --- Music notes (above controller) ---
-    note_y = 54
-    note_x = 36
-    note_size = 11
-    note_thick = 3
-    second_note_x_offset = 18
-    second_note_y_offset = -3
-    note_height = 30
-    note_color = COLORS["dark_red"]
-    # Background
-    # draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
-    note_shape = scale_coords([(note_x, note_y), (note_x, note_height), (note_x+second_note_x_offset, note_height + second_note_y_offset),(note_x+second_note_x_offset, note_y + second_note_y_offset)])
-    # Note line all in one
-    draw.polygon(note_shape,  outline=note_color, width=scale_coords(note_thick))
-    # Erase bottom part
-    draw.rectangle(scale_coords([(note_x+note_thick, note_y+second_note_y_offset-note_thick), (note_x+second_note_x_offset-note_thick, note_y)]), fill=COLORS["silver_gray"])
+    # # --- Music notes (above controller) ---
+    # note_y = 54
+    # note_x = 36
+    # note_size = 11
+    # note_thick = 3
+    # second_note_x_offset = 18
+    # second_note_y_offset = -3
+    # note_height = 30
+    # note_color = COLORS["dark_red"]
+    # # Background
+    # note_shape = scale_coords([(note_x, note_y), (note_x, note_height), (note_x+second_note_x_offset, note_height + second_note_y_offset),(note_x+second_note_x_offset, note_y + second_note_y_offset)])
+    # # Note line all in one
+    # draw.polygon(note_shape,  outline=note_color, width=scale_coords(note_thick))
+    # # Erase bottom part
+    # draw.rectangle(scale_coords([(note_x+note_thick, note_y+second_note_y_offset-note_thick), (note_x+second_note_x_offset-note_thick, note_y)]), fill=COLORS["silver_gray"])
     
 
-    # Main music note shape
-    draw.ellipse(scale_coords([(note_x-note_size+note_thick, note_y-note_size+(note_size/2)), (note_x+note_thick, note_y+(note_size/2))]), fill=note_color)
-    # draw.rectangle(scale_coords([(note_x+note_size-note_thick, note_height), (note_x+note_size, note_y-(note_size/2))]), fill=COLORS["red_orange"]))
-    # Second note
-    draw.ellipse(scale_coords([(note_x-note_size + second_note_x_offset, note_y-note_size+second_note_y_offset+(note_size/2)), (note_x+ second_note_x_offset, note_y+second_note_y_offset+(note_size/2))]), fill=note_color)
+    # # Main music note shape
+    # draw.ellipse(scale_coords([(note_x-note_size+note_thick, note_y-note_size+(note_size/2)), (note_x+note_thick, note_y+(note_size/2))]), fill=note_color)
+    # # Second note
+    # draw.ellipse(scale_coords([(note_x-note_size + second_note_x_offset, note_y-note_size+second_note_y_offset+(note_size/2)), (note_x+ second_note_x_offset, note_y+second_note_y_offset+(note_size/2))]), fill=note_color)
     
     return img
 
