@@ -1115,59 +1115,85 @@ def generate_cellular_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
 
-    # Tower — triangular lattice structure based on SVG path data
-    # Outer legs
-    draw.line(scale_coords([(16, 54), (32, 12)]), fill=COLORS["charcoal_gray"], width=4)
-    draw.line(scale_coords([(48, 54), (32, 12)]), fill=COLORS["charcoal_gray"], width=4)
+    # --- Tower dimensions ---
+    cx = 32
+    tw = 24            # tower width at bottom
+    top_y, bot_y = 18, 54
+    leg_w = 6          # outer leg line width
+    beam_w = 6         # cross beam line width
+    x_w = 6            # X-bracing line width
+    post_w = 10         # antenna post line width
 
-    # Horizontal cross beams
-    for y in [22, 30, 38, 46]:
-        spread = int((54 - y) * (16 / 42))  # taper: 16px at bottom, 0 at top
-        draw.line(scale_coords([(32 - spread, y), (32 + spread, y)]), fill=COLORS["charcoal_gray"], width=2)
+    # Outer legs
+    draw.line(scale_coords([(cx - tw // 2, bot_y), (cx, top_y)]), fill=COLORS["charcoal_gray"], width=leg_w)
+    draw.line(scale_coords([(cx + tw // 2, bot_y), (cx, top_y)]), fill=COLORS["charcoal_gray"], width=leg_w)
+
+    # Horizontal cross beams — wider at bottom, narrower at top
+    beam_ys = [20, 28, 36, 44]
+    for y in beam_ys:
+        spread = int((y - top_y) * (tw / 2 / (bot_y - top_y)))
+        draw.line(scale_coords([(cx - spread, y), (cx + spread, y)]), fill=COLORS["charcoal_gray"], width=beam_w)
 
     # Inner X cross-bracing
-    for y0, y1 in [(22, 30), (30, 38), (38, 46)]:
-        s0 = int((54 - y0) * (16 / 42))
-        s1 = int((54 - y1) * (16 / 42))
-        draw.line(scale_coords([(32 - s0, y0), (32 + s1, y1)]), fill=COLORS["charcoal_gray"], width=2)
-        draw.line(scale_coords([(32 + s0, y0), (32 - s1, y1)]), fill=COLORS["charcoal_gray"], width=2)
+    for y0, y1 in [(20, 28), (28, 36), (36, 44)]:
+        s0 = int((y0 - top_y) * (tw / 2 / (bot_y - top_y)))
+        s1 = int((y1 - top_y) * (tw / 2 / (bot_y - top_y)))
+        draw.line(scale_coords([(cx - s0, y0), (cx + s1, y1)]), fill=COLORS["charcoal_gray"], width=x_w)
+        draw.line(scale_coords([(cx + s0, y0), (cx - s1, y1)]), fill=COLORS["charcoal_gray"], width=x_w)
 
     # Antenna post at top
-    draw.line(scale_coords([(32, 12), (32, 6)]), fill=COLORS["charcoal_gray"], width=3)
+    draw.line(scale_coords([(cx, top_y), (cx, top_y - 6)]), fill=COLORS["charcoal_gray"], width=post_w)
 
-    # Signal wave arcs — cascading at different heights like the SVG
+    # --- Signal wave arcs ---
     wave_color = COLORS["bright_blue"]
-    # Right side waves (matching SVG y offsets ~34, 51, 34, 34)
-    draw.arc(scale_coords([(38, 8), (54, 24)]), start=270, end=360, fill=wave_color, width=3)
-    draw.arc(scale_coords([(42, 12), (58, 28)]), start=270, end=360, fill=wave_color, width=3)
-    # Right side - larger outer wave
-    draw.arc(scale_coords([(36, 6), (60, 30)]), start=270, end=360, fill=wave_color, width=3)
-    # Right side - lowest wave
-    draw.arc(scale_coords([(40, 18), (56, 34)]), start=270, end=360, fill=wave_color, width=3)
+    wave_w = 8         # arc line width
+    wave_step = 3      # gap between consecutive arcs
+    wave_start_r = 6   # radius of innermost arc
 
-    # Left side waves (mirrored, matching y offsets ~44, 51, 59, 66 — cascading down)
-    draw.arc(scale_coords([(10, 18), (26, 34)]), start=180, end=270, fill=wave_color, width=3)
-    draw.arc(scale_coords([(6, 12), (22, 28)]), start=180, end=270, fill=wave_color, width=3)
-    draw.arc(scale_coords([(4, 6), (28, 30)]), start=180, end=270, fill=wave_color, width=3)
-    draw.arc(scale_coords([(8, 8), (24, 24)]), start=180, end=270, fill=wave_color, width=3)
+    for i in range(4):
+        r = wave_start_r + i * wave_step
+        # Right: bottom-right quarter centered at (cx, top_y)
+        draw.arc(scale_coords([(cx, top_y - r), (cx + r, top_y)]), start=270, end=360, fill=wave_color, width=wave_w)
+        # Left: bottom-left quarter centered at (cx, top_y)
+        draw.arc(scale_coords([(cx - r, top_y - r), (cx, top_y)]), start=180, end=270, fill=wave_color, width=wave_w)
     return img
 
 def generate_columns_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["charcoal_gray"], outline=COLORS["light_gray"], width=8)
 
-    colors = [COLORS["red_orange"], COLORS["sun_yellow"], COLORS["bright_blue"], COLORS["emerald_green"]]
-    block_w, block_h = 10, 8
-    gap = 4
-    cols_x = [12, 27, 42]
-    origin_y = 50
+    # Tetris board with 1x3 vertical I-pieces
+    cell = 6            # block cell size
+    gap = 2             # gap between cells
+    board_x0 = 4       # board left edge
+    board_y0 = 4        # board top
+    colors = [COLORS["bright_blue"], COLORS["emerald_green"], COLORS["red_orange"], COLORS["sun_yellow"]]
 
-    for ci, cx in enumerate(cols_x):
-        col_color = colors[ci]
-        for row in range(3):
-            by = origin_y - row * (block_h + gap)
-            draw.rectangle(scale_coords([(cx, by - block_h), (cx + block_w, by)]), fill=col_color)
-            draw.rectangle(scale_coords([(cx + 2, by - block_h + 2), (cx + block_w - 2, by - 2)]), fill=COLORS["light_silver"])
+    def draw_block(col, row, color):
+        x = board_x0 + col * (cell + gap)
+        y = board_y0 + row * (cell + gap)
+        draw.rounded_rectangle(scale_coords([(x, y), (x + cell, y + cell)]), radius=1, fill=color, outline=COLORS["light_gray"], width=1)
+
+    # --- Settled I-pieces (1x3 vertical) at the bottom ---
+    # Each entry: (col, bottom_row, color_index) — occupies col, rows bottom_row-2 .. bottom_row
+    settled = [
+        (0, 7, 0),   # blue in col 0, bottom at row 7
+        (1, 7, 1),   # green in col 1
+        (2, 6, 0),   # blue in col 2, bottom at row 6
+        (4, 7, 2),   # red in col 4
+        (5, 7, 3),   # yellow in col 5
+        (6, 6, 1),   # green in col 6, bottom at row 6
+    ]
+    for col, bottom_row, ci in settled:
+        for r in range(3):
+            draw_block(col, bottom_row - 2 + r, colors[ci])
+
+    # --- Falling I-piece (1x3 vertical) in the air ---
+    fall_col = 3
+    fall_top = 1      # top-most block of the falling piece
+    fall_color = colors[3]  # yellow
+    for r in range(3):
+        draw_block(fall_col, fall_top + r, fall_color)
     return img
 
 def generate_compass_icon():
