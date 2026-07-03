@@ -1366,17 +1366,45 @@ def generate_lights_out_icon():
 def generate_memory_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+
+    # --- Grid dimensions ---
+    cols, rows = 4, 2
+    card_w = 13        # card outer width
+    card_h = 13        # card outer height
+    card_r = 10         # card corner radius
+    gap_x = 2          # horizontal gap between cards
+    gap_y = 2          # vertical gap between rows
+    outline_w = 1     # card outline width
+    inset = 0        # inner color inset from card edge
+    inner_r = 0        # inner color square corner radius
+
+    # --- Colors ---
+    bg_color = COLORS["white"]
+    outline_color = COLORS["charcoal_gray"]
+    # 4 pairs: 2 blue, 1 green, 1 red
+    pair_colors = [COLORS["bright_blue"]] * 4 + [COLORS["emerald_green"]] * 2 + [COLORS["red_orange"]] * 2
+
     import random
     random.seed(1)
-    pairs = [COLORS["bright_blue"]] * 4 + [COLORS["emerald_green"]] * 2 + [COLORS["red_orange"]] * 2
-    random.shuffle(pairs)
-    for row in range(2):
-        for col in range(4):
-            x = 9 + col * 12
-            y = 18 + row * 18
-            color = pairs[row * 4 + col]
-            draw.rounded_rectangle(scale_coords([(x, y), (x + 10, y + 10)]), radius=2, fill=COLORS["white"], outline=COLORS["charcoal_gray"], width=4)
-            draw.rounded_rectangle(scale_coords([(x + 2, y + 2), (x + 8, y + 8)]), radius=2, fill=color)
+    random.shuffle(pair_colors)
+
+    # --- Compute grid origin to center in 64x64 ---
+    total_w = cols * card_w + (cols - 1) * gap_x
+    total_h = rows * card_h + (rows - 1) * gap_y
+    origin_x = (64 - total_w) // 2
+    origin_y = (64 - total_h) // 2
+
+    for row in range(rows):
+        for col in range(cols):
+            x = origin_x + col * (card_w + gap_x)
+            y = origin_y + row * (card_h + gap_y)
+            color = pair_colors[row * cols + col]
+            # draw.rounded_rectangle(scale_coords([(x, y), (x + card_w, y + card_h)]),
+            #                        radius=card_r, fill=bg_color, outline=outline_color, width=outline_w)
+            draw.rounded_rectangle(scale_coords([(x, y), (x + card_w, y + card_h)]),
+                                   radius=card_r, fill=color, outline=outline_color, width=outline_w)
+            # draw.rounded_rectangle(scale_coords([(x + inset, y + inset), (x + card_w - inset, y + card_h - inset)]),
+            #                        radius=inner_r, fill=color)
     return img
 
 if __name__ == "__main__":
