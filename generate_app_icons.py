@@ -1384,11 +1384,12 @@ def generate_dj_addon_icon():
     # --- Knob dimensions ---
     knob_size = 4  # width & height
     knob_outline = 2
-    knob_colors = (COLORS["light_gray"], COLORS["silver_gray"])
+    # knob_colors = (COLORS["light_gray"], COLORS["silver_gray"])
+    knob_colors = (COLORS["light_gray"], COLORS["charcoal_gray"])
 
     # --- Knob x positions ---
-    left_knob_x0, left_knob_x1 = 6, 6 + knob_size
-    right_knob_x0, right_knob_x1 = 54, 54 + knob_size
+    left_knob_x0, left_knob_x1 = 8, 8 + knob_size
+    right_knob_x0, right_knob_x1 = 52, 52 + knob_size
 
     # --- Knob row y positions ---
     knob_rows = [19, 29, 39]
@@ -1408,8 +1409,8 @@ def generate_dj_addon_icon():
     fader_handle_r = 1
     fader_color = COLORS["emerald_green"]
 
-    draw.line(scale_coords([(fader_x_l, fader_top), (fader_x_l, fader_bot)]), fill=COLORS["light_gray"], width=fader_line_w)
-    draw.line(scale_coords([(fader_x_r, fader_top), (fader_x_r, fader_bot)]), fill=COLORS["light_gray"], width=fader_line_w)
+    draw.line(scale_coords([(fader_x_l, fader_top), (fader_x_l, fader_bot)]), fill=COLORS["charcoal_gray"], width=fader_line_w)
+    draw.line(scale_coords([(fader_x_r, fader_top), (fader_x_r, fader_bot)]), fill=COLORS["charcoal_gray"], width=fader_line_w)
 
     # Left fader handle
     l_fh_x0 = fader_x_l - fader_handle_w // 2
@@ -1445,7 +1446,7 @@ def generate_dj_addon_icon():
     cf_handle_r = 1
     cf_color = COLORS["sun_yellow"]
 
-    draw.line(scale_coords([(cf_x0, cf_y), (cf_x1, cf_y)]), fill=COLORS["light_gray"], width=cf_line_w)
+    draw.line(scale_coords([(cf_x0, cf_y), (cf_x1, cf_y)]), fill=COLORS["charcoal_gray"], width=cf_line_w)
     cf_hx0 = cx - cf_handle_w // 2
     draw.rounded_rectangle(scale_coords([(cf_hx0, cf_y - cf_handle_h // 2), (cf_hx0 + cf_handle_w, cf_y + cf_handle_h // 2)]),
                            radius=cf_handle_r, fill=cf_color)
