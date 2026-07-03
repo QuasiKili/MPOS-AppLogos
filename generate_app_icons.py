@@ -1115,30 +1115,41 @@ def generate_cellular_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
 
-    # Old-school Nokia phone body
-    phone_x0, phone_x1 = 14, 50
-    phone_y0, phone_y1 = 6, 58
-    draw.rounded_rectangle(scale_coords([(phone_x0, phone_y0), (phone_x1, phone_y1)]), radius=8,
-                           fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=6)
+    # Tower — triangular lattice structure based on SVG path data
+    # Outer legs
+    draw.line(scale_coords([(16, 54), (32, 12)]), fill=COLORS["charcoal_gray"], width=4)
+    draw.line(scale_coords([(48, 54), (32, 12)]), fill=COLORS["charcoal_gray"], width=4)
 
-    # Screen
-    screen_x0, screen_x1 = 18, 46
-    screen_y0, screen_y1 = 10, 22
-    draw.rounded_rectangle(scale_coords([(screen_x0, screen_y0), (screen_x1, screen_y1)]), radius=2,
-                           fill=COLORS["emerald_green"], outline=COLORS["dark_blue_gray"], width=4)
+    # Horizontal cross beams
+    for y in [22, 30, 38, 46]:
+        spread = int((54 - y) * (16 / 42))  # taper: 16px at bottom, 0 at top
+        draw.line(scale_coords([(32 - spread, y), (32 + spread, y)]), fill=COLORS["charcoal_gray"], width=2)
 
-    # Keypad - 4 rows of 3 circles
-    key_r = 3
-    key_gap_x = 8
-    key_gap_y = 6
-    first_key_x = phone_x0 + 10
-    first_key_y = screen_y1 + 6
-    for row in range(4):
-        for col in range(3):
-            kx = first_key_x + col * (key_r * 2 + key_gap_x)
-            ky = first_key_y + row * (key_r * 2 + key_gap_y)
-            draw.ellipse(scale_coords([(kx, ky), (kx + key_r * 2, ky + key_r * 2)]),
-                         fill=COLORS["light_gray"], outline=COLORS["dark_blue_gray"], width=2)
+    # Inner X cross-bracing
+    for y0, y1 in [(22, 30), (30, 38), (38, 46)]:
+        s0 = int((54 - y0) * (16 / 42))
+        s1 = int((54 - y1) * (16 / 42))
+        draw.line(scale_coords([(32 - s0, y0), (32 + s1, y1)]), fill=COLORS["charcoal_gray"], width=2)
+        draw.line(scale_coords([(32 + s0, y0), (32 - s1, y1)]), fill=COLORS["charcoal_gray"], width=2)
+
+    # Antenna post at top
+    draw.line(scale_coords([(32, 12), (32, 6)]), fill=COLORS["charcoal_gray"], width=3)
+
+    # Signal wave arcs — cascading at different heights like the SVG
+    wave_color = COLORS["bright_blue"]
+    # Right side waves (matching SVG y offsets ~34, 51, 34, 34)
+    draw.arc(scale_coords([(38, 8), (54, 24)]), start=270, end=360, fill=wave_color, width=3)
+    draw.arc(scale_coords([(42, 12), (58, 28)]), start=270, end=360, fill=wave_color, width=3)
+    # Right side - larger outer wave
+    draw.arc(scale_coords([(36, 6), (60, 30)]), start=270, end=360, fill=wave_color, width=3)
+    # Right side - lowest wave
+    draw.arc(scale_coords([(40, 18), (56, 34)]), start=270, end=360, fill=wave_color, width=3)
+
+    # Left side waves (mirrored, matching y offsets ~44, 51, 59, 66 — cascading down)
+    draw.arc(scale_coords([(10, 18), (26, 34)]), start=180, end=270, fill=wave_color, width=3)
+    draw.arc(scale_coords([(6, 12), (22, 28)]), start=180, end=270, fill=wave_color, width=3)
+    draw.arc(scale_coords([(4, 6), (28, 30)]), start=180, end=270, fill=wave_color, width=3)
+    draw.arc(scale_coords([(8, 8), (24, 24)]), start=180, end=270, fill=wave_color, width=3)
     return img
 
 def generate_columns_icon():
@@ -1218,26 +1229,38 @@ def generate_navstar_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["dark_blue_gray"], outline=COLORS["light_gray"], width=8)
 
-    # Satellite bus (body)
-    bus_x0, bus_x1 = 18, 46
-    bus_y0, bus_y1 = 24, 40
-    bus_h = bus_y1 - bus_y0
-    draw.rounded_rectangle(scale_coords([(bus_x0, bus_y0), (bus_x1, bus_y1)]), radius=4,
+    # Solar panels (large rectangles on left & right)
+    panel_w, panel_h = 14, 28
+    panel_y0, panel_y1 = 18, 46
+    panel_color = COLORS["bright_blue"]
+    panel_outline = COLORS["charcoal_gray"]
+
+    draw.rectangle(scale_coords([(4, panel_y0), (4 + panel_w, panel_y1)]), fill=panel_color, outline=panel_outline, width=2)
+    draw.rectangle(scale_coords([(60 - panel_w, panel_y0), (60, panel_y1)]), fill=panel_color, outline=panel_outline, width=2)
+
+    # Panel grid lines (solar cell segmentation)
+    for y in range(panel_y0 + 4, panel_y1, 4):
+        draw.line(scale_coords([(6, y), (4 + panel_w - 1, y)]), fill=panel_outline, width=1)
+        draw.line(scale_coords([(60 - panel_w + 1, y), (58, y)]), fill=panel_outline, width=1)
+
+    # Connecting struts from body to panels
+    strut_y0, strut_y1 = 28, 36
+    draw.rectangle(scale_coords([(4 + panel_w, strut_y0), (22, strut_y1)]), fill=COLORS["light_gray"])
+    draw.rectangle(scale_coords([(42, strut_y0), (60 - panel_w, strut_y1)]), fill=COLORS["light_gray"])
+
+    # Satellite central body
+    body_x0, body_x1 = 22, 42
+    body_y0, body_y1 = 22, 42
+    draw.rounded_rectangle(scale_coords([(body_x0, body_y0), (body_x1, body_y1)]), radius=4,
                            fill=COLORS["light_gray"], outline=COLORS["charcoal_gray"], width=4)
 
-    # Solar panels (left & right)
-    panel_w, panel_h = 8, 20
-    panel_gap = 2
-    panel_color = COLORS["bright_blue"]
-    panel_cy = bus_y0 + bus_h // 2
-    draw.rectangle(scale_coords([(bus_x0 - panel_gap - panel_w, panel_cy - panel_h // 2), (bus_x0 - panel_gap, panel_cy + panel_h // 2)]), fill=panel_color)
-    draw.rectangle(scale_coords([(bus_x1 + panel_gap, panel_cy - panel_h // 2), (bus_x1 + panel_gap + panel_w, panel_cy + panel_h // 2)]), fill=panel_color)
-
-    # Antenna dish
-    dish_cx, dish_cy = 32, 16
-    dish_r = 6
-    draw.arc(scale_coords([(dish_cx - dish_r, dish_cy - dish_r), (dish_cx + dish_r, dish_cy + dish_r)]), start=180, end=360, fill=COLORS["light_gray"], width=4)
-    draw.line(scale_coords([(dish_cx, dish_cy), (dish_cx + dish_r, dish_cy)]), fill=COLORS["light_gray"], width=2)
+    # Antenna dish on top of body
+    dish_cx, dish_cy = 32, 14
+    dish_r = 8
+    draw.arc(scale_coords([(dish_cx - dish_r, dish_cy - dish_r), (dish_cx + dish_r, dish_cy + dish_r)]),
+             start=0, end=180, fill=COLORS["light_gray"], width=3)
+    draw.line(scale_coords([(dish_cx, dish_cy), (dish_cx, dish_cy + 4)]), fill=COLORS["light_gray"], width=3)
+    draw.line(scale_coords([(dish_cx - dish_r + 2, dish_cy), (dish_cx + dish_r - 2, dish_cy)]), fill=COLORS["light_gray"], width=2)
     return img
 
 def generate_weather_icon():
