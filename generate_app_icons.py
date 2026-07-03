@@ -1355,27 +1355,28 @@ def generate_lights_out_icon():
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
     import random
     random.seed(7)
-    for row in range(5):
-        for col in range(5):
-            x = 8 + col * 10
-            y = 8 + row * 10
-            color = random.choice([COLORS["sun_yellow"], COLORS["sun_yellow"], COLORS["light_gray"], COLORS["light_gray"], COLORS["light_gray"]])
-            draw.ellipse(scale_coords([(x, y), (x + 6, y + 6)]), fill=color, outline=COLORS["charcoal_gray"], width=2)
+    for row in range(3):
+        for col in range(3):
+            x = 8 + col * 18
+            y = 8 + row * 18
+            color = random.choice([COLORS["sun_yellow"], COLORS["sun_yellow"], COLORS["dark_blue_gray"], COLORS["dark_blue_gray"], COLORS["dark_blue_gray"]])
+            draw.rectangle(scale_coords([(x, y), (x + 14, y + 14)]), fill=color, outline=COLORS["charcoal_gray"], width=2)
     return img
 
 def generate_memory_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
-    card_colors = [COLORS["bright_blue"], COLORS["emerald_green"], COLORS["red_orange"], COLORS["sun_yellow"]]
     import random
     random.seed(1)
-    for row in range(3):
+    pairs = [COLORS["bright_blue"]] * 4 + [COLORS["emerald_green"]] * 2 + [COLORS["red_orange"]] * 2
+    random.shuffle(pairs)
+    for row in range(2):
         for col in range(4):
-            x = 8 + col * 12
-            y = 8 + row * 16
-            draw.rounded_rectangle(scale_coords([(x, y), (x + 10, y + 14)]), radius=2, fill=COLORS["white"], outline=COLORS["charcoal_gray"], width=4)
-            color = card_colors[(row * 4 + col) % 4]
-            draw.rounded_rectangle(scale_coords([(x + 2, y + 2), (x + 8, y + 12)]), radius=2, fill=color)
+            x = 9 + col * 12
+            y = 18 + row * 18
+            color = pairs[row * 4 + col]
+            draw.rounded_rectangle(scale_coords([(x, y), (x + 10, y + 10)]), radius=2, fill=COLORS["white"], outline=COLORS["charcoal_gray"], width=4)
+            draw.rounded_rectangle(scale_coords([(x + 2, y + 2), (x + 8, y + 8)]), radius=2, fill=color)
     return img
 
 if __name__ == "__main__":
