@@ -1239,14 +1239,38 @@ def generate_weather_icon():
 def generate_dj_addon_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
-    # Left turntable
-    draw.ellipse(scale_coords([(6, 16), (30, 40)]), fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=4)
-    draw.ellipse(scale_coords([(10, 20), (26, 36)]), fill=COLORS["dark_blue_gray"])
-    # Right turntable
-    draw.ellipse(scale_coords([(34, 16), (58, 40)]), fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=4)
-    draw.ellipse(scale_coords([(38, 20), (54, 36)]), fill=COLORS["dark_blue_gray"])
-    # Center mixer
-    draw.rectangle(scale_coords([(28, 32), (36, 52)]), fill=COLORS["charcoal_gray"])
+
+    # Controller body
+    draw.rounded_rectangle(scale_coords([(4, 6), (60, 58)]), radius=6, fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=4)
+
+    # Left channel - 3 knobs
+    draw.ellipse(scale_coords([(10, 12), (16, 18)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
+    draw.ellipse(scale_coords([(10, 24), (16, 30)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
+    draw.ellipse(scale_coords([(10, 36), (16, 42)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
+
+    # Left fader
+    draw.line(scale_coords([(22, 10), (22, 44)]), fill=COLORS["light_gray"], width=3)
+    draw.rounded_rectangle(scale_coords([(20, 26), (24, 32)]), radius=1, fill=COLORS["emerald_green"])
+
+    # Right channel - 3 knobs (mirrored)
+    draw.ellipse(scale_coords([(48, 12), (54, 18)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
+    draw.ellipse(scale_coords([(48, 24), (54, 30)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
+    draw.ellipse(scale_coords([(48, 36), (54, 42)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
+
+    # Right fader
+    draw.line(scale_coords([(42, 10), (42, 44)]), fill=COLORS["light_gray"], width=3)
+    draw.rounded_rectangle(scale_coords([(40, 18), (44, 24)]), radius=1, fill=COLORS["emerald_green"])
+
+    # Center pads (4 columns x 2 rows)
+    for row in range(2):
+        for col in range(4):
+            x = 26 + col * 4
+            y = 14 + row * 10
+            draw.rounded_rectangle(scale_coords([(x, y), (x + 3, y + 5)]), radius=1, fill=COLORS["bright_blue"])
+
+    # Bottom crossfader
+    draw.line(scale_coords([(14, 52), (50, 52)]), fill=COLORS["light_gray"], width=3)
+    draw.rounded_rectangle(scale_coords([(30, 50), (34, 54)]), radius=1, fill=COLORS["sun_yellow"])
     return img
 
 def generate_lights_out_icon():
