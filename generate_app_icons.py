@@ -642,7 +642,6 @@ def main():
         "com.micropythonos.sorter": generate_sorter_icon,
         "com.micropythonos.space_invaders": generate_space_invaders_icon,
         "com.micropythonos.texteditor": generate_texteditor_icon,
-        "com.micropythonos.duke_launcher": generate_duke_launcher_icon,
         "com.micropythonos.breakout": generate_breakout_icon,
         "com.micropythonos.scan_bluetooth": generate_scan_bluetooth_icon,
         "cz.ucw.pavel.calendar": generate_calendar_icon,
@@ -1043,17 +1042,7 @@ def generate_texteditor_icon():
         draw.line(scale_coords([(14, y), (50, y)]), fill=COLORS["light_silver"], width=4)
     return img
 
-def generate_duke_launcher_icon():
-    img, draw = create_icon_base()
-    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
-    try:
-        font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(18))
-        draw.text(scale_coords((10, 18)), "DUKE", font=font, fill=COLORS["dark_red"])
-    except:
-        draw.text(scale_coords((10, 22)), "DUKE", fill=COLORS["dark_red"])
-    # Star
-    draw.polygon(scale_coords([(32, 10), (34, 18), (42, 18), (36, 24), (38, 32), (32, 28), (26, 32), (28, 24), (22, 18), (30, 18)]), fill=COLORS["sun_yellow"])
-    return img
+
 
 def generate_breakout_icon():
     img, draw = create_icon_base()
@@ -1240,37 +1229,85 @@ def generate_dj_addon_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
 
-    # Controller body
-    draw.rounded_rectangle(scale_coords([(4, 6), (60, 58)]), radius=6, fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=4)
+    # --- Controller body dimensions ---
+    bx0, bx1 = 4, 60
+    by0, by1 = 16, 48
+    body_r = 4
+    body_w = body_outline = 4
 
-    # Left channel - 3 knobs
-    draw.ellipse(scale_coords([(10, 12), (16, 18)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
-    draw.ellipse(scale_coords([(10, 24), (16, 30)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
-    draw.ellipse(scale_coords([(10, 36), (16, 42)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
+    draw.rounded_rectangle(scale_coords([(bx0, by0), (bx1, by1)]), radius=body_r,
+                           fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=body_outline)
 
-    # Left fader
-    draw.line(scale_coords([(22, 10), (22, 44)]), fill=COLORS["light_gray"], width=3)
-    draw.rounded_rectangle(scale_coords([(20, 26), (24, 32)]), radius=1, fill=COLORS["emerald_green"])
+    cx = (bx0 + bx1) // 2  # 32
 
-    # Right channel - 3 knobs (mirrored)
-    draw.ellipse(scale_coords([(48, 12), (54, 18)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
-    draw.ellipse(scale_coords([(48, 24), (54, 30)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
-    draw.ellipse(scale_coords([(48, 36), (54, 42)]), fill=COLORS["light_gray"], outline=COLORS["silver_gray"], width=2)
+    # --- Knob dimensions ---
+    knob_size = 4  # width & height
+    knob_outline = 2
+    knob_colors = (COLORS["light_gray"], COLORS["silver_gray"])
 
-    # Right fader
-    draw.line(scale_coords([(42, 10), (42, 44)]), fill=COLORS["light_gray"], width=3)
-    draw.rounded_rectangle(scale_coords([(40, 18), (44, 24)]), radius=1, fill=COLORS["emerald_green"])
+    # --- Knob x positions ---
+    left_knob_x0, left_knob_x1 = 6, 6 + knob_size
+    right_knob_x0, right_knob_x1 = 54, 54 + knob_size
 
-    # Center pads (4 columns x 2 rows)
-    for row in range(2):
-        for col in range(4):
-            x = 26 + col * 4
-            y = 14 + row * 10
-            draw.rounded_rectangle(scale_coords([(x, y), (x + 3, y + 5)]), radius=1, fill=COLORS["bright_blue"])
+    # --- Knob row y positions ---
+    knob_rows = [19, 29, 39]
 
-    # Bottom crossfader
-    draw.line(scale_coords([(14, 52), (50, 52)]), fill=COLORS["light_gray"], width=3)
-    draw.rounded_rectangle(scale_coords([(30, 50), (34, 54)]), radius=1, fill=COLORS["sun_yellow"])
+    for y in knob_rows:
+        for kx0, kx1 in [(left_knob_x0, left_knob_x1), (right_knob_x0, right_knob_x1)]:
+            draw.ellipse(scale_coords([(kx0, y), (kx1, y + knob_size)]),
+                         fill=knob_colors[0], outline=knob_colors[1], width=knob_outline)
+
+    # --- Fader dimensions ---
+    fader_x_l = 16
+    fader_x_r = 48
+    fader_top, fader_bot = by0 +4 , by1 -4
+    fader_line_w = 3
+    fader_handle_w = 4
+    fader_handle_h = 4
+    fader_handle_r = 1
+    fader_color = COLORS["emerald_green"]
+
+    draw.line(scale_coords([(fader_x_l, fader_top), (fader_x_l, fader_bot)]), fill=COLORS["light_gray"], width=fader_line_w)
+    draw.line(scale_coords([(fader_x_r, fader_top), (fader_x_r, fader_bot)]), fill=COLORS["light_gray"], width=fader_line_w)
+
+    # Left fader handle
+    l_fh_x0 = fader_x_l - fader_handle_w // 2
+    l_fh_x1 = l_fh_x0 + fader_handle_w
+    draw.rounded_rectangle(scale_coords([(l_fh_x0, 30), (l_fh_x1, 30 + fader_handle_h)]),
+                           radius=fader_handle_r, fill=fader_color)
+
+    # Right fader handle
+    r_fh_x0 = fader_x_r - fader_handle_w // 2
+    r_fh_x1 = r_fh_x0 + fader_handle_w
+    draw.rounded_rectangle(scale_coords([(r_fh_x0, 22), (r_fh_x1, 22 + fader_handle_h)]),
+                           radius=fader_handle_r, fill=fader_color)
+
+    # --- Pad grid dimensions ---
+    pad_w = 6
+    pad_h = 6
+    pad_r = 2
+    pad_rows = [23, 33]
+    pad_cols = [cx - 12, cx - 6, cx + 0, cx + 6]  # 25, 29, 33, 37
+    pad_color = COLORS["bright_blue"]
+
+    for px in pad_cols:
+        for py in pad_rows:
+            draw.rounded_rectangle(scale_coords([(px, py), (px + pad_w - 1, py + pad_h - 1)]),
+                                   radius=pad_r, fill=pad_color)
+
+    # --- Crossfader dimensions ---
+    cf_y = by1 -4
+    cf_x0, cf_x1 = 20, 44
+    cf_line_w = 3
+    cf_handle_w = 4
+    cf_handle_h = 4
+    cf_handle_r = 1
+    cf_color = COLORS["sun_yellow"]
+
+    draw.line(scale_coords([(cf_x0, cf_y), (cf_x1, cf_y)]), fill=COLORS["light_gray"], width=cf_line_w)
+    cf_hx0 = cx - cf_handle_w // 2
+    draw.rounded_rectangle(scale_coords([(cf_hx0, cf_y - cf_handle_h // 2), (cf_hx0 + cf_handle_w, cf_y + cf_handle_h // 2)]),
+                           radius=cf_handle_r, fill=cf_color)
     return img
 
 def generate_lights_out_icon():
