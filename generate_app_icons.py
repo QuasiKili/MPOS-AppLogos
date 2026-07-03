@@ -1197,7 +1197,7 @@ def generate_weather_icon():
     # Thermometer with adjustable variables
     bulb_w = 16
     bulb_h = 16
-    stem_w = 14
+    stem_w = 12
     stem_h = 32
     outline = 2
     percentage = 50  # how high red mercury reaches (0-100)
@@ -1210,7 +1210,8 @@ def generate_weather_icon():
 
     # Back body (light silver)
     draw.ellipse(scale_coords([(cx - bulb_w // 2, bulb_top), (cx + bulb_w // 2, bulb_bottom)]), fill=COLORS["light_silver"])
-    draw.rounded_rectangle(scale_coords([(cx - stem_w // 2, stem_top), (cx + stem_w // 2, bulb_mid_y)]), radius=4, fill=COLORS["light_silver"])
+    draw.ellipse(scale_coords([(cx - stem_w // 2, stem_top - stem_w // 2), (cx + stem_w // 2, stem_top + stem_w // 2)]), fill=COLORS["light_silver"])
+    draw.rectangle(scale_coords([(cx - stem_w // 2, stem_top), (cx + stem_w // 2, bulb_mid_y)]), fill=COLORS["light_silver"])
     draw.ellipse(scale_coords([(cx - bulb_w // 2, bulb_top), (cx + bulb_w // 2, bulb_bottom)]), fill=COLORS["light_silver"])
 
     # Red fill (smaller by outline on all sides, creating border)
