@@ -1070,12 +1070,12 @@ def generate_breakout_icon():
 def generate_scan_bluetooth_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
-    # Bluetooth symbol matching SVG path: M6.5 6.5L17.5 17.5L12 22V2L17.5 6.5L6.5 17.5
-    points = scale_coords([(17, 17), (47, 47), (32, 59), (32, 5), (47, 17), (17, 47)])
-    draw.line(points, fill=COLORS["bright_blue"], width=8)
+    # Bluetooth symbol matching SVG path, scaled 0.8 around center, line 2x thicker
+    points = scale_coords([(20, 20), (44, 44), (32, 54), (32, 10), (44, 20), (20, 44)])
+    draw.line(points, fill=COLORS["bright_blue"], width=16, joint="curve")
     # Scanning arcs on the right
-    draw.arc(scale_coords([(44, 34), (60, 50)]), start=0, end=180, fill=COLORS["emerald_green"], width=4)
-    draw.arc(scale_coords([(40, 38), (56, 54)]), start=0, end=180, fill=COLORS["emerald_green"], width=4)
+    # draw.arc(scale_coords([(44, 34), (60, 50)]), start=0, end=180, fill=COLORS["emerald_green"], width=4)
+    # draw.arc(scale_coords([(40, 38), (56, 54)]), start=0, end=180, fill=COLORS["emerald_green"], width=4)
     return img
 
 def generate_calendar_icon():
