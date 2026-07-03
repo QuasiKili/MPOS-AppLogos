@@ -1070,13 +1070,12 @@ def generate_breakout_icon():
 def generate_scan_bluetooth_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
-    # Bluetooth rune symbol
-    draw.line(scale_coords([(32, 10), (32, 54)]), fill=COLORS["bright_blue"], width=6)
-    draw.polygon(scale_coords([(32, 16), (46, 30), (32, 30)]), fill=COLORS["bright_blue"])
-    draw.polygon(scale_coords([(32, 30), (46, 44), (32, 44)]), fill=COLORS["bright_blue"])
-    # Scanning arcs
-    draw.arc(scale_coords([(42, 38), (58, 54)]), start=0, end=180, fill=COLORS["emerald_green"], width=4)
-    draw.arc(scale_coords([(38, 42), (54, 58)]), start=0, end=180, fill=COLORS["emerald_green"], width=4)
+    # Bluetooth symbol matching SVG path: M6.5 6.5L17.5 17.5L12 22V2L17.5 6.5L6.5 17.5
+    points = scale_coords([(17, 17), (47, 47), (32, 59), (32, 5), (47, 17), (17, 47)])
+    draw.line(points, fill=COLORS["bright_blue"], width=8)
+    # Scanning arcs on the right
+    draw.arc(scale_coords([(44, 34), (60, 50)]), start=0, end=180, fill=COLORS["emerald_green"], width=4)
+    draw.arc(scale_coords([(40, 38), (56, 54)]), start=0, end=180, fill=COLORS["emerald_green"], width=4)
     return img
 
 def generate_calendar_icon():
@@ -1121,12 +1120,14 @@ def generate_compass_icon():
     img, draw = create_icon_base()
     draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
     # Compass face
-    draw.ellipse(scale_coords([(10, 10), (54, 54)]), fill=COLORS["white"], outline=COLORS["charcoal_gray"], width=8)
+    draw.ellipse(scale_coords([(10, 10), (54, 54)]), fill=COLORS["light_gray"], outline=COLORS["charcoal_gray"], width=8)
+    # draw.ellipse(scale_coords([(10, 10), (54, 54)]), fill=COLORS["charcoal_gray"], outline=COLORS["charcoal_gray"], width=8)
     # Needle (north = red, south = light)
-    draw.polygon(scale_coords([(32, 12), (36, 34), (32, 32), (28, 34)]), fill=COLORS["red_orange"])
-    draw.polygon(scale_coords([(32, 52), (36, 30), (32, 32), (28, 30)]), fill=COLORS["light_silver"])
+    draw.polygon(scale_coords([(32, 14), (36, 32), (32, 30), (28, 32)]), fill=COLORS["red_orange"])
+    # draw.polygon(scale_coords([(32, 50), (36, 32), (32, 34), (28, 32)]), fill=COLORS["light_silver"])
+    draw.polygon(scale_coords([(32, 50), (36, 32), (32, 34), (28, 32)]), fill=COLORS["charcoal_gray"])
     # N dot
-    draw.ellipse(scale_coords([(30, 12), (34, 16)]), fill=COLORS["red_orange"])
+    # draw.ellipse(scale_coords([(30, 12), (34, 16)]), fill=COLORS["red_orange"])
     return img
 
 def generate_floodit_icon():
