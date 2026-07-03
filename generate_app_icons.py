@@ -973,15 +973,53 @@ def generate_update_apps_icon():
 
 def generate_retrocore_launcher_icon():
     img, draw = create_icon_base()
-    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
-    # Gamepad body
-    draw.rounded_rectangle(scale_coords([(8, 18), (56, 46)]), radius=12, fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=8)
-    # D-pad
-    draw.rectangle(scale_coords([(16, 26), (20, 38)]), fill=COLORS["dark_blue_gray"])
-    draw.rectangle(scale_coords([(14, 30), (22, 34)]), fill=COLORS["dark_blue_gray"])
-    # Action buttons
-    draw.ellipse(scale_coords([(40, 24), (46, 30)]), fill=COLORS["red_orange"])
-    draw.ellipse(scale_coords([(46, 30), (52, 36)]), fill=COLORS["sun_yellow"])
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["charcoal_gray"], outline=COLORS["light_gray"], width=8)
+
+    # --- Gamepad body dimensions ---
+    bx0, bx1 = 5, 59
+    by0, by1 = 16, 48
+    body_r = 16
+    body_outline = 6
+
+    draw.rounded_rectangle(scale_coords([(bx0, by0), (bx1, by1)]), radius=body_r,
+                           fill=COLORS["silver_gray"], outline=COLORS["dark_blue_gray"], width=body_outline)
+
+    # --- D-pad dimensions ---
+    dpad_cx, dpad_cy = 18, 30
+    dpad_w = 4            # thickness of each arm
+    dpad_h = 12           # height of vertical arm
+    dpad_arm = 12          # width of horizontal arm
+    dpad_color = COLORS["dark_blue_gray"]
+
+    draw.rectangle(scale_coords([(dpad_cx - dpad_w // 2, dpad_cy - dpad_h // 2), (dpad_cx + dpad_w // 2, dpad_cy + dpad_h // 2)]), fill=dpad_color)
+    draw.rectangle(scale_coords([(dpad_cx - dpad_arm // 2, dpad_cy - dpad_w // 2), (dpad_cx + dpad_arm // 2, dpad_cy + dpad_w // 2)]), fill=dpad_color)
+
+    # --- Action buttons ---
+    btn_r = 3             # button radius
+    btn_a_cx, btn_a_cy = 43, 25   # top-right (X / red)
+    btn_b_cx, btn_b_cy = 49, 31   # bottom-right (A / yellow)
+    knob_outline = 2
+    draw.ellipse(scale_coords([(btn_a_cx - btn_r, btn_a_cy - btn_r), (btn_a_cx + btn_r, btn_a_cy + btn_r)]), fill=COLORS["red_orange"],outline=COLORS["dark_blue_gray"], width=knob_outline)
+    draw.ellipse(scale_coords([(btn_b_cx - btn_r, btn_b_cy - btn_r), (btn_b_cx + btn_r, btn_b_cy + btn_r)]), fill=COLORS["sun_yellow"],outline=COLORS["dark_blue_gray"], width=knob_outline)
+
+    # --- Start / End / Reset buttons ---
+    se_w, se_h = 6, 3     # pill width & height
+    se_r = 2
+    se_y = 40
+    se_gap = 4
+    se_color = COLORS["charcoal_gray"]
+
+    start_x = 25
+    end_x = start_x + se_w + se_gap
+
+    draw.rounded_rectangle(scale_coords([(start_x, se_y - se_h // 2), (start_x + se_w, se_y + se_h // 2)]), radius=se_r, fill=se_color)
+    draw.rounded_rectangle(scale_coords([(end_x, se_y - se_h // 2), (end_x + se_w, se_y + se_h // 2)]), radius=se_r, fill=se_color)
+
+    reset_r = 2           # tiny circle
+    reset_cx, reset_cy = 35, 42
+    reset_color = COLORS["red_orange"]
+
+    # draw.ellipse(scale_coords([(reset_cx - reset_r, reset_cy - reset_r), (reset_cx + reset_r, reset_cy + reset_r)]), fill=reset_color)
     return img
 
 def generate_sorter_icon():
