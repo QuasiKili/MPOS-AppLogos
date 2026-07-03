@@ -2,8 +2,10 @@ Make new logos for these apps. Make them consistent with the colors and style an
 
 com.micropythonos.retrocore_launcher/
 = a retro gamepad
+
 com.micropythonos.sorter
 = 4 column with three rows of smileys in, filled half, they are shuffled 
+
 com.micropythonos.space_invaders/
 = space invader thing in circle
 
@@ -13,12 +15,6 @@ com.micropythonos.texteditor
 com.micropythonos.duke_launcher
 = duke nukem 3d game in cool font
 
-com.micropythonos.breakout
-= a breakout game
-
-com_micropythonos_nostr
---> change the current bubble to a "standard chat app" icon folder. and make new oart of script for this.
-nostr chat app, do it like the hello chat bubble but put nostr inside
 
 com.micropythonos.scan_bluetooth
 app that scans bluetooth
@@ -56,3 +52,5 @@ lights out game
 com.micropythonos.memory
 memory game
 
+com.quasikili.quasiclock
+a flipclock app

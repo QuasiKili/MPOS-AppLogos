@@ -393,6 +393,21 @@ def generate_nostr_icon():
     # Text "Hello!" using font
     try:
         font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(15))
+        draw.text(scale_coords((12, 25)), "nostr", font=font, fill=COLORS["white"])
+    except:
+        # Fallback if font not available
+        draw.text(scale_coords((12, 25)), "nostr", fill=COLORS["white"])
+    return img
+
+def generate_chat_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Speech bubble
+    draw.rounded_rectangle(scale_coords([(5, 14), (59, 50)]), radius=32, fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
+    draw.polygon(scale_coords([(20, 50), (28, 62), (30, 50)]), fill=COLORS["steel_blue"], outline=COLORS["bright_blue"], width=16)
+    # Text "Hello!" using font
+    try:
+        font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(15))
         draw.text(scale_coords((12, 25)), "Hello!", font=font, fill=COLORS["white"])
     except:
         # Fallback if font not available
@@ -605,6 +620,7 @@ def main():
         "com.micropythonos.imu": generate_imu_icon,
         "com.micropythonos.musicplayer": generate_musicplayer_icon,
         "com.micropythonos.nostr": generate_nostr_icon,
+        "generic_chat": generate_chat_icon,
         "com.micropythonos.showbattery": generate_showbattery_icon,
         "com.micropythonos.showfonts": generate_showfonts_icon,
         "com.micropythonos.soundrecorder": generate_soundrecorder_icon,
@@ -622,6 +638,24 @@ def main():
         "MPOS-QuasiCalculator": generate_quasi_calculator_icon,
         "MPOS-QuasiNametag": generate_quasi_nametag_icon,
         "MPOS-QuasiDoodle": generate_quasi_doodle_icon,
+        "com.micropythonos.retrocore_launcher": generate_retrocore_launcher_icon,
+        "com.micropythonos.sorter": generate_sorter_icon,
+        "com.micropythonos.space_invaders": generate_space_invaders_icon,
+        "com.micropythonos.texteditor": generate_texteditor_icon,
+        "com.micropythonos.duke_launcher": generate_duke_launcher_icon,
+        "com.micropythonos.breakout": generate_breakout_icon,
+        "com.micropythonos.scan_bluetooth": generate_scan_bluetooth_icon,
+        "cz.ucw.pavel.calendar": generate_calendar_icon,
+        "cz.ucw.pavel.cellular": generate_cellular_icon,
+        "cz.ucw.pavel.columns": generate_columns_icon,
+        "cz.ucw.pavel.compass": generate_compass_icon,
+        "cz.ucw.pavel.floodit": generate_floodit_icon,
+        "cz.ucw.pavel.gyro": generate_gyro_icon,
+        "cz.ucw.pavel.navstar": generate_navstar_icon,
+        "cz.ucw.pavel.weather": generate_weather_icon,
+        "com.micropythonos.dj_addon": generate_dj_addon_icon,
+        "com.micropythonos.lights_out": generate_lights_out_icon,
+        "com.micropythonos.memory": generate_memory_icon,
     }
 
     if args.app:
@@ -936,6 +970,255 @@ def generate_update_apps_icon():
     draw.polygon(scale_coords([(19, 34), (45, 34), (32, 22)]), fill=arrow_color)
     draw.rectangle(scale_coords([(25, 33), (39, arrow_bottom-outline_width)]), fill=arrow_color)
     
+    return img
+
+def generate_retrocore_launcher_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Gamepad body
+    draw.rounded_rectangle(scale_coords([(8, 18), (56, 46)]), radius=12, fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=8)
+    # D-pad
+    draw.rectangle(scale_coords([(16, 26), (20, 38)]), fill=COLORS["dark_blue_gray"])
+    draw.rectangle(scale_coords([(14, 30), (22, 34)]), fill=COLORS["dark_blue_gray"])
+    # Action buttons
+    draw.ellipse(scale_coords([(40, 24), (46, 30)]), fill=COLORS["red_orange"])
+    draw.ellipse(scale_coords([(46, 30), (52, 36)]), fill=COLORS["sun_yellow"])
+    return img
+
+def generate_sorter_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    import random
+    random.seed(42)
+    smiles = [1]*6 + [0]*6
+    random.shuffle(smiles)
+    for row in range(3):
+        for col in range(4):
+            x = 12 + col * 10
+            y = 12 + row * 12
+            if smiles[row * 4 + col]:
+                draw.ellipse(scale_coords([(x, y), (x + 8, y + 8)]), fill=COLORS["sun_yellow"], outline=COLORS["dark_orange"], width=2)
+                draw.ellipse(scale_coords([(x + 2, y + 2), (x + 3, y + 3)]), fill=COLORS["dark_blue_gray"])
+                draw.ellipse(scale_coords([(x + 5, y + 2), (x + 6, y + 3)]), fill=COLORS["dark_blue_gray"])
+                draw.arc(scale_coords([(x + 2, y + 4), (x + 6, y + 7)]), start=0, end=180, fill=COLORS["dark_blue_gray"], width=1)
+            else:
+                draw.ellipse(scale_coords([(x, y), (x + 8, y + 8)]), outline=COLORS["light_gray"], width=4)
+    return img
+
+def generate_space_invaders_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Classic space invader pixel pattern
+    invader = [
+        "  xxxx  ",
+        " xxxxxx ",
+        "xx xx xx",
+        "xxxxxxxx",
+        "x xxx xx",
+        " xx xxxx",
+        "  x  x  ",
+    ]
+    for row, line in enumerate(invader):
+        for col, char in enumerate(line):
+            if char == 'x':
+                x = 14 + col * 5
+                y = 12 + row * 5
+                draw.rectangle(scale_coords([(x, y), (x + 4, y + 4)]), fill=COLORS["emerald_green"])
+    return img
+
+def generate_texteditor_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Notepad
+    draw.rounded_rectangle(scale_coords([(10, 6), (54, 58)]), radius=4, fill=COLORS["white"], outline=COLORS["light_gray"], width=8)
+    # Spiral binding
+    for x in [16, 24, 32, 40, 48]:
+        draw.ellipse(scale_coords([(x - 1, 6), (x + 1, 10)]), fill=COLORS["light_gray"])
+    # Text lines
+    for y in [20, 28, 36, 44]:
+        draw.line(scale_coords([(14, y), (50, y)]), fill=COLORS["light_silver"], width=4)
+    return img
+
+def generate_duke_launcher_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    try:
+        font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(18))
+        draw.text(scale_coords((10, 18)), "DUKE", font=font, fill=COLORS["dark_red"])
+    except:
+        draw.text(scale_coords((10, 22)), "DUKE", fill=COLORS["dark_red"])
+    # Star
+    draw.polygon(scale_coords([(32, 10), (34, 18), (42, 18), (36, 24), (38, 32), (32, 28), (26, 32), (28, 24), (22, 18), (30, 18)]), fill=COLORS["sun_yellow"])
+    return img
+
+def generate_breakout_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["charcoal_gray"], outline=COLORS["light_gray"], width=8)
+    brick_colors = [COLORS["red_orange"], COLORS["sun_yellow"], COLORS["emerald_green"], COLORS["bright_blue"]]
+    # Bricks
+    for row in range(4):
+        for col in range(5):
+            x = 8 + col * 10
+            y = 8 + row * 6
+            draw.rectangle(scale_coords([(x, y), (x + 8, y + 4)]), fill=brick_colors[row], outline=COLORS["charcoal_gray"], width=2)
+    # Paddle
+    draw.rounded_rectangle(scale_coords([(20, 50), (44, 54)]), radius=4, fill=COLORS["white"])
+    # Ball
+    draw.ellipse(scale_coords([(34, 44), (38, 48)]), fill=COLORS["white"])
+    return img
+
+def generate_scan_bluetooth_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Bluetooth rune symbol
+    draw.line(scale_coords([(32, 10), (32, 54)]), fill=COLORS["bright_blue"], width=6)
+    draw.polygon(scale_coords([(32, 16), (46, 30), (32, 30)]), fill=COLORS["bright_blue"])
+    draw.polygon(scale_coords([(32, 30), (46, 44), (32, 44)]), fill=COLORS["bright_blue"])
+    # Scanning arcs
+    draw.arc(scale_coords([(42, 38), (58, 54)]), start=0, end=180, fill=COLORS["emerald_green"], width=4)
+    draw.arc(scale_coords([(38, 42), (54, 58)]), start=0, end=180, fill=COLORS["emerald_green"], width=4)
+    return img
+
+def generate_calendar_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Calendar page
+    draw.rounded_rectangle(scale_coords([(10, 12), (54, 52)]), radius=4, fill=COLORS["white"], outline=COLORS["light_gray"], width=8)
+    # Calendar header
+    draw.rounded_rectangle(scale_coords([(10, 12), (54, 24)]), radius=4, fill=COLORS["red_orange"])
+    # Date
+    try:
+        font = ImageFont.truetype("assets/Archivo-Bold.ttf", scale_coords(24))
+        draw.text(scale_coords((20, 26)), "17", font=font, fill=COLORS["dark_blue_gray"])
+    except:
+        draw.rectangle(scale_coords([(22, 30), (42, 44)]), fill=COLORS["dark_blue_gray"])
+    return img
+
+def generate_cellular_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Old phone handset
+    draw.rounded_rectangle(scale_coords([(18, 26), (30, 54)]), radius=8, fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=4)
+    draw.ellipse(scale_coords([(22, 18), (34, 30)]), fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=4)
+    # Wifi waves
+    draw.arc(scale_coords([(34, 10), (56, 32)]), start=200, end=340, fill=COLORS["bright_blue"], width=4)
+    draw.arc(scale_coords([(38, 16), (52, 28)]), start=200, end=340, fill=COLORS["bright_blue"], width=4)
+    draw.arc(scale_coords([(42, 20), (48, 24)]), start=200, end=340, fill=COLORS["bright_blue"], width=4)
+    return img
+
+def generate_columns_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    colors = [COLORS["red_orange"], COLORS["sun_yellow"], COLORS["bright_blue"], COLORS["emerald_green"]]
+    # Falling jewel columns
+    draw.rounded_rectangle(scale_coords([(12, 10), (20, 26)]), radius=4, fill=colors[0])
+    draw.rounded_rectangle(scale_coords([(26, 16), (34, 36)]), radius=4, fill=colors[1])
+    draw.rounded_rectangle(scale_coords([(26, 36), (34, 46)]), radius=4, fill=colors[2])
+    draw.rounded_rectangle(scale_coords([(40, 8), (48, 24)]), radius=4, fill=colors[3])
+    return img
+
+def generate_compass_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Compass face
+    draw.ellipse(scale_coords([(10, 10), (54, 54)]), fill=COLORS["white"], outline=COLORS["charcoal_gray"], width=8)
+    # Needle (north = red, south = light)
+    draw.polygon(scale_coords([(32, 12), (36, 34), (32, 32), (28, 34)]), fill=COLORS["red_orange"])
+    draw.polygon(scale_coords([(32, 52), (36, 30), (32, 32), (28, 30)]), fill=COLORS["light_silver"])
+    # N dot
+    draw.ellipse(scale_coords([(30, 12), (34, 16)]), fill=COLORS["red_orange"])
+    return img
+
+def generate_floodit_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    colors = [COLORS["red_orange"], COLORS["sun_yellow"], COLORS["emerald_green"], COLORS["bright_blue"], COLORS["amethyst_purple"]]
+    import random
+    random.seed(123)
+    for row in range(5):
+        for col in range(5):
+            x = 10 + col * 9
+            y = 10 + row * 9
+            draw.rectangle(scale_coords([(x, y), (x + 7, y + 7)]), fill=random.choice(colors))
+    return img
+
+def generate_gyro_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Gyroscope rings
+    draw.ellipse(scale_coords([(12, 18), (52, 46)]), outline=COLORS["bright_blue"], width=6)
+    draw.ellipse(scale_coords([(18, 10), (46, 54)]), outline=COLORS["emerald_green"], width=6)
+    draw.ellipse(scale_coords([(14, 14), (50, 50)]), outline=COLORS["red_orange"], width=6)
+    # Center pivot
+    draw.ellipse(scale_coords([(30, 30), (34, 34)]), fill=COLORS["charcoal_gray"])
+    return img
+
+def generate_navstar_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Map pin
+    draw.ellipse(scale_coords([(24, 38), (40, 54)]), fill=COLORS["red_orange"])
+    draw.polygon(scale_coords([(24, 48), (40, 48), (32, 58)]), fill=COLORS["red_orange"])
+    # Pin inner circle
+    draw.ellipse(scale_coords([(28, 42), (36, 50)]), fill=COLORS["white"])
+    # Satellite arcs
+    draw.arc(scale_coords([(4, 4), (28, 28)]), start=0, end=90, fill=COLORS["bright_blue"], width=4)
+    draw.arc(scale_coords([(36, 4), (60, 28)]), start=90, end=180, fill=COLORS["bright_blue"], width=4)
+    return img
+
+def generate_weather_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Sun
+    draw.ellipse(scale_coords([(36, 8), (52, 24)]), fill=COLORS["sun_yellow"])
+    # Cloud
+    draw.ellipse(scale_coords([(14, 26), (34, 42)]), fill=COLORS["light_gray"])
+    draw.ellipse(scale_coords([(24, 22), (44, 38)]), fill=COLORS["light_gray"])
+    draw.ellipse(scale_coords([(34, 28), (50, 40)]), fill=COLORS["light_gray"])
+    # Thermometer
+    draw.rounded_rectangle(scale_coords([(12, 40), (20, 54)]), radius=4, fill=COLORS["red_orange"], outline=COLORS["dark_red"], width=2)
+    draw.ellipse(scale_coords([(12, 44), (20, 52)]), fill=COLORS["red_orange"], outline=COLORS["dark_red"], width=2)
+    return img
+
+def generate_dj_addon_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    # Left turntable
+    draw.ellipse(scale_coords([(6, 16), (30, 40)]), fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=4)
+    draw.ellipse(scale_coords([(10, 20), (26, 36)]), fill=COLORS["dark_blue_gray"])
+    # Right turntable
+    draw.ellipse(scale_coords([(34, 16), (58, 40)]), fill=COLORS["charcoal_gray"], outline=COLORS["dark_blue_gray"], width=4)
+    draw.ellipse(scale_coords([(38, 20), (54, 36)]), fill=COLORS["dark_blue_gray"])
+    # Center mixer
+    draw.rectangle(scale_coords([(28, 32), (36, 52)]), fill=COLORS["charcoal_gray"])
+    return img
+
+def generate_lights_out_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    import random
+    random.seed(7)
+    for row in range(5):
+        for col in range(5):
+            x = 8 + col * 10
+            y = 8 + row * 10
+            color = random.choice([COLORS["sun_yellow"], COLORS["sun_yellow"], COLORS["light_gray"], COLORS["light_gray"], COLORS["light_gray"]])
+            draw.ellipse(scale_coords([(x, y), (x + 6, y + 6)]), fill=color, outline=COLORS["charcoal_gray"], width=2)
+    return img
+
+def generate_memory_icon():
+    img, draw = create_icon_base()
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
+    card_colors = [COLORS["bright_blue"], COLORS["emerald_green"], COLORS["red_orange"], COLORS["sun_yellow"]]
+    import random
+    random.seed(1)
+    for row in range(3):
+        for col in range(4):
+            x = 8 + col * 12
+            y = 8 + row * 16
+            draw.rounded_rectangle(scale_coords([(x, y), (x + 10, y + 14)]), radius=2, fill=COLORS["white"], outline=COLORS["charcoal_gray"], width=4)
+            color = card_colors[(row * 4 + col) % 4]
+            draw.rounded_rectangle(scale_coords([(x + 2, y + 2), (x + 8, y + 12)]), radius=2, fill=color)
     return img
 
 if __name__ == "__main__":
