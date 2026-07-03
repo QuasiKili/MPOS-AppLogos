@@ -1007,23 +1007,27 @@ def generate_sorter_icon():
 
 def generate_space_invaders_icon():
     img, draw = create_icon_base()
-    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["silver_gray"], outline=COLORS["light_gray"], width=8)
-    # Classic space invader pixel pattern
+    draw.ellipse(scale_coords([(4, 4), (60, 60)]), fill=COLORS["dark_blue_gray"], outline=COLORS["light_gray"], width=8)
+    # Original 1978 space invader on 11 columns, symmetrical
     invader = [
-        "  xxxx  ",
-        " xxxxxx ",
-        "xx xx xx",
-        "xxxxxxxx",
-        "x xxx xx",
-        " xx xxxx",
-        "  x  x  ",
+        "..x.....x..",
+        "...x...x...",
+        "..xxxxxxx..",
+        ".xx.xxx.xx.",
+        "xxxxxxxxxxx",
+        "x.xxxxxxx.x",
+        "x.x.....x.x",
+        "...xx.xx...",
     ]
+    pixel_size = 4
+    start_x = 10
+    start_y = 14
     for row, line in enumerate(invader):
         for col, char in enumerate(line):
             if char == 'x':
-                x = 14 + col * 5
-                y = 12 + row * 5
-                draw.rectangle(scale_coords([(x, y), (x + 4, y + 4)]), fill=COLORS["emerald_green"])
+                x = start_x + col * pixel_size
+                y = start_y + row * pixel_size
+                draw.rectangle(scale_coords([(x, y), (x + pixel_size - 1, y + pixel_size - 1)]), fill=COLORS["emerald_green"])
     return img
 
 def generate_texteditor_icon():
