@@ -610,7 +610,7 @@ def main():
 
     apps = {
         "com.micropythonos.camera": generate_camera_icon,
-        "com.micropythonos.confetti": generate_confetti_icon,
+        "unused/com.micropythonos.confetti": generate_confetti_icon,
         "com.micropythonos.connect4": generate_connect4_icon,
         "com.micropythonos.draw": generate_draw_icon,
         "com.micropythonos.errortest": generate_errortest_icon,
@@ -619,7 +619,7 @@ def main():
         "com.micropythonos.imageview": generate_imageview_icon,
         "com.micropythonos.imu": generate_imu_icon,
         "com.micropythonos.musicplayer": generate_musicplayer_icon,
-        "com.micropythonos.nostr": generate_nostr_icon,
+        "com_micropythonos_nostr": generate_nostr_icon,
         "generic_chat": generate_chat_icon,
         "com.micropythonos.showbattery": generate_showbattery_icon,
         "com.micropythonos.showfonts": generate_showfonts_icon,
@@ -630,7 +630,7 @@ def main():
         "com.micropythonos.launcher": generate_launcher_icon,
         "com.micropythonos.howto": generate_howto_icon,
         "com.micropythonos.settings": generate_settings_icon,
-        "com.micropythonos.wifi": generate_wifi_icon,
+        "com.micropythonos.settings.wifi": generate_wifi_icon,
         "com.micropythonos.manage_apps": generate_manage_apps_icon,
         "com.micropythonos.delete_apps": generate_delete_apps_icon,
         "com.micropythonos.update_apps": generate_update_apps_icon,
