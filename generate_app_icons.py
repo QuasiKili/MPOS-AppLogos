@@ -627,7 +627,7 @@ def main():
         "com.micropythonos.about": generate_about_icon,
         "com.micropythonos.appstore": generate_appstore_icon,
         "com.micropythonos.osupdate": generate_osupdate_icon,
-        "com.micropythonos.launcher": generate_launcher_icon,
+        "unused/com.micropythonos.launcher": generate_launcher_icon,
         "com.micropythonos.howto": generate_howto_icon,
         "com.micropythonos.settings": generate_settings_icon,
         "com.micropythonos.settings.wifi": generate_wifi_icon,
